@@ -34,6 +34,14 @@ public class Constants {
 
     public static final String CREATE_ROLE = "/roles";
 
+    public static final String CATEGORY_BASE_URL = "/api/category";
+
+    public static final String GET_CATEGORY = "/{categoryId}";
+
+    public static final String UPDATE_CATEGORY = "/{categoryId}";
+
+    public static final String DELETE_CATEGORY = "/{categoryId}";
+
     public static final String GET_ROLES_BY_USER_ID = "/{userId}/roles";
 
     public static final String ASSIGN_ROLE_BY_USER_ID = "/{userId}/roles";
