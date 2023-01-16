@@ -62,6 +62,10 @@ public class Constants {
 
     public static final int ROLE_ID_INCREMENT_VALUE = 1;
 
+    public static final int CATEGORY_ID_INITIAL_VALUE = 1;
+
+    public static final int CATEGORY_ID_INCREMENT_VALUE = 1;
+
     public static final String POSTS_TABLE = "posts";
 
     public static final String COMMENTS_TABLE = "comments";

@@ -8,6 +8,7 @@ import com.spring.blog.entity.User;
 import com.spring.blog.exceptions.ResourceNotFoundException;
 import com.spring.blog.repository.RoleRepository;
 import com.spring.blog.repository.UserRepository;
+import com.spring.blog.security.JwtTokenProvider;
 import com.spring.blog.service.AuthService;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -34,19 +35,27 @@ public class AuthServiceImpl implements AuthService {
 
     private ModelMapper modelMapper;
 
-    public AuthServiceImpl(AuthenticationManager authenticationManager, UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, ModelMapper modelMapper) {
+    private JwtTokenProvider jwtTokenProvider;
+
+    public AuthServiceImpl(AuthenticationManager authenticationManager, UserRepository userRepository,
+                           RoleRepository roleRepository, PasswordEncoder passwordEncoder, ModelMapper modelMapper,
+                           JwtTokenProvider jwtTokenProvider) {
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
         this.modelMapper = modelMapper;
+        this.jwtTokenProvider = jwtTokenProvider;
     }
 
     @Override
     public String login(LoginDto loginDto) {
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDto.getUsernameOrEmail(), loginDto.getPassword()));
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        return "User logged in successfully!";
+        Authentication authentication = authenticationManager
+                .authenticate(new UsernamePasswordAuthenticationToken(loginDto.getUsernameOrEmail(), loginDto.getPassword()));
+        SecurityContextHolder.getContext()
+                             .setAuthentication(authentication);
+        String token = jwtTokenProvider.generateJwtToken(authentication);
+        return token;
     }
 
     @Override
@@ -60,7 +69,8 @@ public class AuthServiceImpl implements AuthService {
         user.setEmail(registerDto.getEmail());
         user.setPassword(passwordEncoder(registerDto.getPassword()));
         Set<Role> roleSet = new HashSet<>();
-        Role userRole = roleRepository.findByName("USER").get();
+        Role userRole = roleRepository.findByName("USER")
+                                      .get();
         roleSet.add(userRole);
         user.setRoles(roleSet);
         User createdUser = userRepository.save(user);
@@ -76,7 +86,8 @@ public class AuthServiceImpl implements AuthService {
     }
 
     private User checkAndGetUser(long userId) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User", "ID", userId));
+        User user = userRepository.findById(userId)
+                                  .orElseThrow(() -> new ResourceNotFoundException("User", "ID", userId));
         return user;
     }
 
