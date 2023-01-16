@@ -21,7 +21,7 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "category_id_generator")
     @SequenceGenerator(name = "category_id_generator", sequenceName = "category_id_sequence",
             initialValue = CATEGORY_ID_INITIAL_VALUE, allocationSize = CATEGORY_ID_INCREMENT_VALUE)
-    private Long id;
+    private long id;
 
     @Column(name = "name", nullable = false, unique = true)
     private String name;

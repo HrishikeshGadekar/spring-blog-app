@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 import static com.spring.blog.utils.Constants.*;
 
 @RestController
@@ -28,10 +30,14 @@ public class PostController {
     }
 
     @GetMapping
-    public ResponseEntity<PostResponseDto> getAllPosts(@RequestParam(value = "pageNo", defaultValue = DEFAULT_PAGE_NUMBER, required = false) int pageNo,
-                                                       @RequestParam(value = "pageSize", defaultValue = DEFAULT_PAGE_SIZE, required = false) int pageSize,
-                                                       @RequestParam(value = "sortBy", defaultValue = DEFAULT_SORT_BY, required = false) String sortBy,
-                                                       @RequestParam(value = "sortOrder", defaultValue = DEFAULT_SORT_DIRECTION, required = false) String sortOrder) {
+    public ResponseEntity<PostResponseDto> getAllPosts(@RequestParam(value = "pageNo", defaultValue = DEFAULT_PAGE_NUMBER,
+            required = false) int pageNo,
+                                                       @RequestParam(value = "pageSize", defaultValue = DEFAULT_PAGE_SIZE,
+                                                               required = false) int pageSize,
+                                                       @RequestParam(value = "sortBy", defaultValue = DEFAULT_SORT_BY,
+                                                               required = false) String sortBy,
+                                                       @RequestParam(value = "sortOrder", defaultValue = DEFAULT_SORT_DIRECTION
+                                                               , required = false) String sortOrder) {
         return new ResponseEntity<>(postService.getAllPosts(pageNo, pageSize, sortBy, sortOrder), HttpStatus.OK);
     }
 
@@ -40,7 +46,7 @@ public class PostController {
         return new ResponseEntity<>(postService.getPostById(postId), HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    //    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping(MAP_TO_ID)
     public ResponseEntity<PostDto> updatePost(@Valid @PathVariable long postId, @RequestBody PostDto postDto) {
         return new ResponseEntity<>(postService.updatePost(postDto, postId), HttpStatus.ACCEPTED);
@@ -52,4 +58,10 @@ public class PostController {
         postService.deletePost(postId);
         return new ResponseEntity<>("Post deleted successfully!", HttpStatus.OK);
     }
+
+    @GetMapping(GET_POSTS_BY_CATEGORY)
+    public ResponseEntity<List<PostDto>> getPostsByCategory(@RequestParam long categoryId) {
+        return new ResponseEntity<>(postService.getPostsByCategory(categoryId), HttpStatus.OK);
+    }
 }
+

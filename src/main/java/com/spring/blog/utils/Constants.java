@@ -38,6 +38,8 @@ public class Constants {
 
     public static final String GET_CATEGORY = "/{categoryId}";
 
+    public static final String GET_POSTS_BY_CATEGORY = "/filter";
+
     public static final String UPDATE_CATEGORY = "/{categoryId}";
 
     public static final String DELETE_CATEGORY = "/{categoryId}";
