@@ -109,6 +109,30 @@ public class PostServiceImpl implements PostService {
                     .collect(Collectors.toList());
     }
 
+    @Override
+    public List<PostDto> searchPost(String query) {
+        List<Post> posts = postRepository.searchPost(query);
+        return posts.stream()
+                    .map((post) -> mapToDto(post))
+                    .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<PostDto> searchPostSQL(String query) {
+        List<Post> posts = postRepository.searchPostSQL(query);
+        return posts.stream()
+                    .map((post) -> mapToDto(post))
+                    .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<PostDto> searchPostByTitle(String title) {
+        List<Post> posts = postRepository.searchPostByTitle(title);
+        return posts.stream()
+                    .map((post) -> mapToDto(post))
+                    .collect(Collectors.toList());
+    }
+
     private Post mapToEntity(PostDto postDto) {
         Post post = modelMapper.map(postDto, Post.class);
 //        post.setTitle(postDto.getTitle());

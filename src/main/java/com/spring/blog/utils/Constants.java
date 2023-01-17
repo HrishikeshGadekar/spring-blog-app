@@ -40,6 +40,12 @@ public class Constants {
 
     public static final String GET_POSTS_BY_CATEGORY = "/filter";
 
+    public static final String SEARCH_POST = "/search";
+
+    public static final String SEARCH_POST_SQL = "/searchSQL";
+
+    public static final String SEARCH_POST_BY_TITLE = "/searchBy";
+
     public static final String UPDATE_CATEGORY = "/{categoryId}";
 
     public static final String DELETE_CATEGORY = "/{categoryId}";

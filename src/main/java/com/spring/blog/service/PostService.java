@@ -18,4 +18,10 @@ public interface PostService {
     public void deletePost(long id);
 
     public List<PostDto> getPostsByCategory(long categoryId);
+
+    public List<PostDto> searchPost(String query);
+
+    public List<PostDto> searchPostSQL(String query);
+
+    public List<PostDto> searchPostByTitle(String title);
 }

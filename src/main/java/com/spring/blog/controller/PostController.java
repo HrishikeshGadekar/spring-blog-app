@@ -63,5 +63,21 @@ public class PostController {
     public ResponseEntity<List<PostDto>> getPostsByCategory(@RequestParam long categoryId) {
         return new ResponseEntity<>(postService.getPostsByCategory(categoryId), HttpStatus.OK);
     }
+
+    @GetMapping(SEARCH_POST)
+    public ResponseEntity<List<PostDto>> searchPost(@RequestParam String query) {
+        return new ResponseEntity<>(postService.searchPost(query), HttpStatus.OK);
+    }
+
+    @GetMapping(SEARCH_POST_SQL)
+    public ResponseEntity<List<PostDto>> searchPostSQL(@RequestParam String query) {
+        return new ResponseEntity<>(postService.searchPostSQL(query), HttpStatus.OK);
+    }
+
+    @GetMapping(SEARCH_POST_BY_TITLE)
+    public ResponseEntity<List<PostDto>> searchPostByTitle(@RequestParam String title) {
+        return new ResponseEntity<>(postService.searchPostByTitle(title), HttpStatus.OK);
+    }
+
 }
 
