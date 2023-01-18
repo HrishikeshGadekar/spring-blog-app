@@ -53,6 +53,8 @@ public class SecurityConfig {
                                      .permitAll()
                                      .requestMatchers("/api/auth/**")
                                      .permitAll()
+                                     .requestMatchers("/actuator/**")
+                                     .permitAll()
                                      .anyRequest()
                                      .authenticated())
                     .exceptionHandling(exception -> exception.authenticationEntryPoint(jwtAuthenticationEntryPoint))
