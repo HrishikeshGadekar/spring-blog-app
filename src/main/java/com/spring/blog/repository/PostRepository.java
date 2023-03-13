@@ -10,6 +10,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
     List<Post> findByCategoryId(long categoryId);
 
+
     List<Post> searchPostByTitle(String title);
 
     @Query("SELECT p FROM Post p WHERE " +

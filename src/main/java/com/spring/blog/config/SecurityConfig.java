@@ -55,6 +55,8 @@ public class SecurityConfig {
                                      .permitAll()
                                      .requestMatchers("/actuator/**")
                                      .permitAll()
+                                     .requestMatchers("/actuator/prometheus")
+                                     .permitAll()
                                      .anyRequest()
                                      .authenticated())
                     .exceptionHandling(exception -> exception.authenticationEntryPoint(jwtAuthenticationEntryPoint))
