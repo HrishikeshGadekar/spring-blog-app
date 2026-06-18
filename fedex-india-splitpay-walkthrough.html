@@ -1,0 +1,2226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FedEx India — SCB Connect Split Payout Demo</title>
+  <style>
+    @font-face {
+      font-family: "SCProsper";
+      src: url("SC Fonts/SCProsperSans-Regular.woff2") format("woff2"),
+           url("SC Fonts/SCProsperSans-Regular.woff") format("woff");
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: "SCProsper";
+      src: url("SC Fonts/SCProsperSans-Medium.woff2") format("woff2"),
+           url("SC Fonts/SCProsperSans-Medium.woff") format("woff");
+      font-weight: 500;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: "SCProsper";
+      src: url("SC Fonts/SCProsperSans-Bold.woff2") format("woff2"),
+           url("SC Fonts/SCProsperSans-Bold.woff") format("woff");
+      font-weight: 700;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    :root {
+      --green-100: #38d200;
+      --green-70: #74df4c;
+      --green-50: #92e773;
+      --green-20: #cdf4bf;
+      --blue-100: #0473ea;
+      --blue-70: #4f9df0;
+      --blue-50: #7bb6f5;
+      --blue-20: #c3defa;
+      --blue-deep-1: #143150;
+      --blue-deep-2: #0f243a;
+      --grey-100: #525355;
+      --grey-70: #868788;
+      --grey-50: #a8a9aa;
+      --grey-20: #d4d4d4;
+      --grey-15: #e5e5e5;
+      --bg: #f7f9fc;
+      --white: #ffffff;
+      --amber: #fff8e1;
+      --amber-border: #ffe082;
+      --success: #2ea44f;
+      --danger: #cc3d3d;
+      --surface: #ffffff;
+      --surface-soft: #fcfdff;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+      --shadow-sm: 0 2px 10px rgba(15, 36, 58, 0.06);
+      --shadow-md: 0 8px 24px rgba(15, 36, 58, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--grey-100);
+      font-family: "SCProsper", "Segoe UI", Arial, sans-serif;
+      line-height: 1.45;
+    }
+
+    header {
+      background: linear-gradient(135deg, var(--blue-deep-2) 0%, var(--blue-100) 100%);
+      color: var(--white);
+      padding: 16px 10px;
+      border-bottom: 4px solid var(--green-100);
+      box-shadow: 0 4px 14px rgba(8, 28, 52, 0.18);
+    }
+
+    .header-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.6rem;
+      letter-spacing: -0.3px;
+      line-height: 1.12;
+    }
+
+
+    .hero-badges {
+      display: grid;
+      grid-template-columns: repeat(3, auto);
+      gap: 6px;
+      justify-content: end;
+      align-content: start;
+      margin-top: 0;
+      flex-shrink: 0;
+    }
+
+    .hero-badges span {
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.22);
+      background: rgba(255,255,255,0.12);
+      color: var(--white);
+      font-size: 0.66rem;
+      font-weight: 700;
+      line-height: 1.2;
+      white-space: nowrap;
+    }
+
+    .container {
+      max-width: none;
+      margin: 0;
+      padding: 10px 6px 22px;
+      display: grid;
+      grid-template-columns: 148px minmax(0, 1fr);
+      gap: 14px;
+      align-items: start;
+    }
+
+    .toc {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      padding: 9px 7px;
+      border: 1px solid var(--grey-20);
+      border-radius: var(--radius-md);
+      background: var(--surface);
+      position: sticky;
+      top: 10px;
+      align-self: start;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .toc a {
+      text-decoration: none;
+      padding: 6px 7px;
+      border-radius: 8px;
+      border: 1px solid #a8cdf7;
+      background: #edf5ff;
+      color: var(--blue-deep-1);
+      font-size: 0.67rem;
+      font-weight: 700;
+      line-height: 1.25;
+      display: block;
+      transition: transform 0.14s ease, background 0.14s ease, border-color 0.14s ease;
+    }
+
+    .toc a:hover {
+      background: #e2efff;
+      border-color: var(--blue-70);
+      transform: translateX(2px);
+    }
+
+    .container > section {
+      grid-column: 2;
+    }
+
+    section {
+      background: var(--surface);
+      border: 1px solid var(--grey-20);
+      border-radius: var(--radius-lg);
+      padding: 16px 17px;
+      margin-bottom: 14px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    #overview {
+      margin-bottom: 10px;
+    }
+
+    #storyline {
+      margin-bottom: 10px;
+    }
+
+    .story-points {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-bottom: 12px;
+    }
+
+    .story-point {
+      padding: 5px 9px;
+      border-radius: 999px;
+      border: 1px solid var(--blue-50);
+      background: #edf5ff;
+      color: var(--blue-deep-1);
+      font-size: 0.69rem;
+      font-weight: 700;
+      line-height: 1.2;
+      white-space: nowrap;
+    }
+
+    .story-diagram {
+      border: 1px solid var(--grey-20);
+      border-radius: var(--radius-md);
+      background: var(--surface-soft);
+      padding: 12px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .flow-caption {
+      margin: 0 0 9px;
+      font-size: 0.7rem;
+      color: var(--grey-70);
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    .story-top-row {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr auto 1fr;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .story-arrow {
+      color: var(--blue-100);
+      font-size: 1rem;
+      font-weight: 700;
+      text-align: center;
+      align-self: center;
+    }
+
+    .story-node {
+      border: 1px solid var(--grey-20);
+      border-radius: 12px;
+      background: var(--white);
+      min-height: 82px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      padding: 8px;
+      box-shadow: 0 1px 6px rgba(15, 36, 58, 0.08);
+      text-align: center;
+    }
+
+    .story-node.core {
+      background: var(--blue-deep-1);
+      border-color: var(--blue-deep-1);
+      color: var(--white);
+    }
+
+    .story-core-wrap {
+      position: relative;
+      width: 100%;
+    }
+
+    .story-core-wrap .story-node {
+      width: 100%;
+    }
+
+    .story-core-tag {
+      display: inline-block;
+      position: absolute;
+      top: calc(100% + 5px);
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid var(--green-70);
+      background: var(--green-20);
+      color: #1f5b2b;
+      font-size: 0.64rem;
+      font-weight: 700;
+      line-height: 1.2;
+      text-transform: uppercase;
+      letter-spacing: 0.2px;
+      white-space: nowrap;
+    }
+
+    .story-node-icon {
+      font-size: 1.05rem;
+      line-height: 1;
+    }
+
+    .story-node-title {
+      font-size: 0.72rem;
+      font-weight: 700;
+      line-height: 1.2;
+      color: inherit;
+    }
+
+    .story-node-sub {
+      font-size: 0.64rem;
+      color: inherit;
+      opacity: 0.82;
+      line-height: 1.2;
+    }
+
+    .story-split-indicator {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr auto 1fr;
+      margin: 28px 0 10px;
+    }
+
+    .story-down-arrow {
+      grid-column: 5;
+      justify-self: center;
+      position: relative;
+      display: inline-flex;
+      font-size: 0.95rem;
+      color: var(--blue-100);
+      font-weight: 700;
+    }
+
+    .story-down-arrow::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      top: calc(100% + 1px);
+      width: 2px;
+      height: 10px;
+      background: #9fc4f3;
+    }
+
+    .story-branch-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+      position: relative;
+      padding-top: 18px;
+    }
+
+    .story-branch-grid::before {
+      content: "";
+      position: absolute;
+      top: 5px;
+      left: 10%;
+      right: 10%;
+      height: 2px;
+      border-radius: 2px;
+      background: linear-gradient(90deg, #8ab8f2 0%, #7dacee 50%, #73a6ec 100%);
+    }
+
+    .story-branch {
+      display: grid;
+      gap: 5px;
+      justify-items: center;
+      position: relative;
+      padding-top: 14px;
+      --branch-connector: #83b3ef;
+    }
+
+    .story-branch::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 2px;
+      height: 15px;
+      border-radius: 2px;
+      background: var(--branch-connector);
+    }
+
+    .story-branch:nth-child(1) { --branch-connector: #4f9df0; }
+    .story-branch:nth-child(2) { --branch-connector: #5ba8ef; }
+    .story-branch:nth-child(3) { --branch-connector: #6db3f0; }
+    .story-branch:nth-child(4) { --branch-connector: #7bbbf0; }
+
+    .story-branch-arrow {
+      font-size: 0.76rem;
+      color: var(--branch-connector);
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .story-branch .story-node {
+      width: 100%;
+      min-height: 78px;
+      background: #edf5ff;
+      border-color: var(--blue-50);
+      border-top: 3px solid var(--branch-connector);
+    }
+
+    .story-legend-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .story-subtitle {
+      margin: 10px 0 7px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--grey-70);
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    .story-legend-item {
+      background: #f8fbff;
+      border: 1px dashed var(--blue-50);
+      border-radius: 8px;
+      padding: 7px 8px;
+      display: grid;
+      gap: 2px;
+    }
+
+    .story-legend-item strong {
+      font-size: 0.68rem;
+      color: var(--blue-deep-1);
+      line-height: 1.2;
+    }
+
+    .story-legend-item span {
+      font-size: 0.66rem;
+      color: var(--grey-70);
+      line-height: 1.2;
+    }
+
+    h2 {
+      margin: 0 0 11px;
+      font-size: 1.02rem;
+      color: var(--blue-deep-1);
+      border-left: 4px solid var(--green-100);
+      padding-left: 10px;
+    }
+
+    h3 {
+      margin: 0 0 3px;
+      font-size: 0.8rem;
+      color: var(--blue-100);
+      line-height: 1.3;
+    }
+
+    .subtle {
+      margin: 0;
+      font-size: 0.76rem;
+      color: var(--grey-70);
+      line-height: 1.45;
+    }
+
+    .grid-2,
+    .grid-3,
+    .grid-4,
+    .term-grid,
+    .feature-grid {
+      display: grid;
+      gap: 9px;
+    }
+
+    .grid-2 { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+    .grid-3 { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+    .grid-4 { grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); }
+    .term-grid { grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); }
+    .feature-grid { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+
+    .card,
+    .term-card,
+    .feature-card,
+    .journey-card,
+    .setup-card,
+    .snippet-card {
+      background: var(--surface-soft);
+      border: 1px solid var(--grey-20);
+      border-radius: var(--radius-md);
+      padding: 11px 12px;
+    }
+
+    .icon-title {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      margin-bottom: 7px;
+    }
+
+    .icon {
+      width: 24px;
+      height: 24px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: var(--blue-20);
+      color: var(--blue-deep-1);
+      font-size: 0.82rem;
+      flex-shrink: 0;
+    }
+
+    .muted-list,
+    .tight-list {
+      margin: 7px 0 0 16px;
+      padding: 0;
+    }
+
+    .muted-list li,
+    .tight-list li {
+      margin-bottom: 5px;
+      font-size: 0.76rem;
+      color: var(--grey-70);
+      line-height: 1.4;
+    }
+
+    .tight-list strong { color: var(--grey-100); }
+
+    .callout {
+      margin-top: 12px;
+      padding: 10px 12px;
+      border-left: 4px solid var(--green-100);
+      background: var(--green-20);
+      border-radius: 0 var(--radius-md) var(--radius-md) 0;
+      font-size: 0.77rem;
+      color: var(--blue-deep-1);
+    }
+
+    .callout.info {
+      border-left-color: var(--blue-70);
+      background: #ebf5ff;
+    }
+
+    .callout.warn {
+      border-left-color: #f0be28;
+      background: var(--amber);
+      color: #6b4f00;
+    }
+
+    .tag {
+      display: inline-block;
+      margin-left: 6px;
+      padding: 2px 7px;
+      border-radius: 999px;
+      font-size: 0.62rem;
+      font-weight: 700;
+      color: var(--white);
+      background: var(--green-100);
+      vertical-align: middle;
+    }
+
+    .vault-canvas {
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+
+    .vault-layout {
+      min-width: 980px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .vault-level {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 18px;
+      position: relative;
+    }
+
+    .vault-node {
+      min-width: 180px;
+      max-width: 220px;
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid var(--grey-20);
+      text-align: center;
+      font-size: 0.75rem;
+      box-shadow: 0 1px 4px rgba(15,36,58,0.08);
+      background: var(--white);
+    }
+
+    .vault-node.root { background: var(--blue-deep-1); color: var(--white); border-color: var(--blue-deep-1); }
+    .vault-node.suspense { background: rgba(212,212,212,0.45); color: var(--grey-70); border-color: var(--grey-20); min-width: 130px; padding: 8px; }
+    .vault-node.party { background: var(--blue-20); color: var(--blue-deep-1); border-color: var(--blue-50); }
+    .vault-node.txn { background: var(--green-20); color: var(--blue-deep-1); border-color: var(--green-70); min-width: 145px; }
+
+    .vault-connector {
+      width: 2px;
+      height: 18px;
+      border-left: 2px dashed var(--grey-50);
+      margin: 0 auto;
+    }
+
+    .party-column {
+      display: grid;
+      gap: 8px;
+      justify-items: center;
+    }
+
+    .txn-row {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      flex-wrap: nowrap;
+    }
+
+    .timeline {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: 9px;
+      align-items: center;
+    }
+
+    .timeline .step {
+      padding: 5px 9px;
+      border-radius: 999px;
+      border: 1px solid var(--blue-50);
+      background: var(--blue-20);
+      color: var(--blue-deep-1);
+      font-size: 0.69rem;
+      font-weight: 700;
+    }
+
+    .timeline .arrow {
+      color: var(--grey-70);
+      font-size: 0.72rem;
+      font-weight: 700;
+    }
+
+    details.flow,
+    details.example-details,
+    details.json-wrap {
+      border: 1px solid var(--grey-20);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      background: var(--surface-soft);
+      margin-top: 11px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    details.flow summary,
+    details.example-details summary,
+    details.json-wrap summary {
+      list-style: none;
+      cursor: pointer;
+      padding: 11px 13px;
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+
+    details.example-details summary {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    details.example-details summary > div {
+      min-width: 0;
+      flex: 1;
+    }
+
+    details.example-details.full-card.standard { border-top: 3px solid var(--blue-deep-1); }
+    details.example-details.full-card.premium { border-top: 3px solid var(--blue-100); }
+
+    details.flow summary { background: var(--blue-20); color: var(--blue-deep-1); }
+    details.example-details summary { background: #f3f7fb; color: var(--blue-deep-1); }
+    details.json-wrap summary { background: var(--blue-deep-1); color: var(--white); }
+
+    .flow-body,
+    .example-detail-body {
+      padding: 11px 13px 13px;
+      font-size: 0.76rem;
+      color: var(--grey-100);
+    }
+
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin: 7px 0 10px;
+      align-items: center;
+    }
+
+    .chip {
+      border-radius: 999px;
+      border: 1px solid var(--blue-50);
+      background: var(--blue-20);
+      color: var(--blue-deep-1);
+      padding: 3px 8px;
+      font-size: 0.67rem;
+      font-weight: 700;
+    }
+
+    .chip-arrow {
+      color: var(--grey-70);
+      font-size: 0.7rem;
+      font-weight: 700;
+    }
+
+    .snippet-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 11px;
+      margin-top: 10px;
+    }
+
+    .code-box {
+      border: 1px solid var(--grey-20);
+      border-radius: 8px;
+      overflow: hidden;
+      margin-top: 8px;
+    }
+
+    .code-head {
+      background: #1d2835;
+      color: var(--white);
+      padding: 6px 9px;
+      font-size: 0.67rem;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+    }
+
+    pre,
+    code {
+      font-family: Consolas, "Courier New", monospace;
+    }
+
+    pre {
+      margin: 0;
+      background: #1d2835;
+      color: #b7efb7;
+      padding: 10px 11px;
+      overflow: auto;
+      font-size: 0.67rem;
+      line-height: 1.5;
+      max-height: 210px;
+    }
+
+    .primary-example-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      align-items: start;
+    }
+
+    .additional-example-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    @media (max-width: 900px) {
+      .primary-example-grid { grid-template-columns: 1fr; }
+    }
+
+    .example-card {
+      background: var(--surface);
+      border: 1px solid var(--grey-20);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-md);
+    }
+
+    .example-card.primary {
+      max-height: 88vh;
+      overflow: auto;
+    }
+
+    .example-card.standard { border-top: 4px solid var(--blue-deep-1); }
+    .example-card.premium { border-top: 4px solid var(--blue-100); }
+
+    .example-header {
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      padding: 11px 13px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 8px;
+      flex-wrap: wrap;
+      border-bottom: 1px solid rgba(0,0,0,0.03);
+    }
+
+    .example-card.standard .example-header { background: #eef4fb; }
+    .example-card.premium .example-header { background: #edf5ff; }
+
+    .example-title { font-size: 0.84rem; font-weight: 700; color: var(--blue-deep-1); }
+    .example-meta { font-size: 0.69rem; color: var(--grey-70); margin-top: 2px; }
+
+    .pill {
+      font-size: 0.62rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 999px;
+      text-transform: uppercase;
+      color: var(--white);
+      white-space: nowrap;
+    }
+
+    .pill.standard { background: var(--blue-deep-1); }
+    .pill.premium { background: var(--blue-100); }
+
+    .example-body { padding: 12px 13px 13px; }
+
+    .method-block { margin-bottom: 10px; }
+    .method-label {
+      font-size: 0.69rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.35px;
+      color: var(--grey-70);
+      margin-bottom: 5px;
+    }
+
+    .split-label {
+      font-size: 0.68rem;
+      color: var(--blue-100);
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.72rem;
+      margin-bottom: 6px;
+    }
+
+    th {
+      background: #f1f5fa;
+      color: var(--grey-70);
+      text-transform: uppercase;
+      letter-spacing: 0.32px;
+      font-size: 0.64rem;
+      text-align: left;
+      padding: 6px 8px;
+    }
+
+    td {
+      padding: 6px 8px;
+      border-bottom: 1px solid #f0f0f0;
+      vertical-align: top;
+    }
+
+    tr:last-child td { border-bottom: none; }
+    .slab-row td { background: #fbfdff; }
+    .slab-subtotal td { font-style: italic; color: var(--grey-70); }
+    .chosen-row td { background: #fffaf0; font-weight: 700; }
+
+    .chosen-tag,
+    .floor-tag,
+    .always-tag,
+    .tie-tag {
+      display: inline-block;
+      border-radius: 999px;
+      padding: 2px 6px;
+      font-size: 0.58rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-left: 4px;
+      vertical-align: middle;
+    }
+
+    .chosen-tag { background: var(--green-100); }
+    .floor-tag { background: var(--success); }
+    .always-tag { background: var(--blue-100); }
+    .tie-tag { background: var(--grey-70); }
+
+    .note,
+    .note-info,
+    .note-green,
+    .note-edge {
+      border-radius: 0 var(--radius-md) var(--radius-md) 0;
+      padding: 9px 10px;
+      font-size: 0.7rem;
+      margin-top: 7px;
+    }
+
+    .note { background: var(--amber); border-left: 4px solid #f2bf25; color: #6b4f00; }
+    .note-info { background: #eaf4ff; border-left: 4px solid var(--blue-70); color: var(--blue-deep-1); }
+    .note-green { background: #ebf8ef; border-left: 4px solid var(--success); color: #165c2d; }
+    .note-edge { background: #fdecea; border-left: 4px solid var(--danger); color: #7b1c1c; }
+
+    .divider { border: none; border-top: 1px solid var(--grey-20); margin: 9px 0; }
+
+    .payout-summary {
+      background: #f7f9fc;
+      border: 1px solid var(--grey-20);
+      border-radius: var(--radius-md);
+      padding: 11px;
+      margin-top: 10px;
+    }
+
+    .payout-summary h4 {
+      margin: 0 0 7px;
+      font-size: 0.69rem;
+      text-transform: uppercase;
+      letter-spacing: 0.35px;
+      color: var(--grey-70);
+    }
+
+    .payout-bars {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .payout-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .payout-label { width: 102px; font-size: 0.71rem; font-weight: 700; flex-shrink: 0; }
+    .bar-track {
+      flex: 1;
+      background: #e8ecef;
+      border-radius: 4px;
+      height: 13px;
+      overflow: hidden;
+      min-width: 4px;
+    }
+
+    .bar-fill { height: 100%; }
+    .bar-transporter { background: var(--blue-deep-1); }
+    .bar-customs { background: var(--blue-70); }
+    .bar-insurer { background: var(--blue-50); }
+    .bar-platform { background: var(--green-100); }
+    .payout-amount { width: 76px; text-align: right; font-size: 0.7rem; font-weight: 700; flex-shrink: 0; }
+    .payout-pct { width: 38px; text-align: right; font-size: 0.66rem; color: var(--grey-70); flex-shrink: 0; }
+    .total-row { border-top: 1px solid var(--grey-20); margin-top: 4px; padding-top: 5px; }
+
+    .summary-wrap { overflow-x: auto; }
+    .summary-table th { background: var(--blue-deep-1); color: var(--white); text-transform: none; font-size: 0.69rem; }
+    .summary-table td { font-size: 0.69rem; }
+    .summary-table tr:nth-child(even) td { background: #f8fbff; }
+
+    .json-toolbar {
+      background: #1d2835;
+      padding: 8px 10px;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .copy-btn {
+      background: var(--green-100);
+      border: none;
+      color: var(--white);
+      border-radius: 6px;
+      padding: 5px 10px;
+      font-size: 0.69rem;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    @media (max-width: 800px) {
+      header { padding: 18px 8px; }
+      .header-top {
+        display: block;
+      }
+      .hero-badges {
+        margin-top: 8px;
+        grid-template-columns: repeat(2, auto);
+        justify-content: start;
+      }
+      .container {
+        padding: 8px 4px 16px;
+        display: block;
+      }
+      .toc {
+        position: static;
+        flex-direction: row;
+        flex-wrap: wrap;
+        margin-bottom: 12px;
+        gap: 6px;
+      }
+      .toc a {
+        padding: 5px 7px;
+      }
+      section { padding: 12px 11px; }
+      .story-diagram { padding: 10px; }
+      .story-top-row {
+        grid-template-columns: 1fr;
+        gap: 6px;
+      }
+      .story-arrow {
+        transform: rotate(90deg);
+      }
+      .story-branch-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        padding-top: 8px;
+      }
+      .story-branch-grid::before,
+      .story-down-arrow::after {
+        display: none;
+      }
+      .story-split-indicator {
+        grid-template-columns: 1fr;
+        margin-top: 24px;
+      }
+      .story-down-arrow {
+        grid-column: 1;
+      }
+      .story-branch {
+        padding-top: 8px;
+      }
+      .story-legend-grid {
+        grid-template-columns: 1fr;
+      }
+      .payout-label { width: 86px; }
+      .payout-amount { width: 64px; }
+      .example-card.primary { max-height: none; }
+      details.example-details summary {
+        flex-wrap: wrap;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-top">
+      <h1>FedEx India — SCB Connect Split Payout Demo</h1>
+      <div class="hero-badges">
+        <span>👤 Client Management</span>
+        <span>🏦 Vault Structure</span>
+        <span>🔢 VA Tracking</span>
+        <span>📦 Standard &amp; Premium</span>
+        <span>💸 Multi-Party Settlement</span>
+        <span>⚡ Rule-Based Split</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <nav class="toc">
+      <a href="#storyline">1. Business Story</a>
+      <a href="#overview">2. Demo Scope</a>
+      <a href="#terms">3. Key Terms</a>
+      <a href="#setup">4. Setup</a>
+      <a href="#vault-tree">5. Vault Tree</a>
+      <a href="#journey">6. Demo Journey</a>
+      <a href="#api-flows">7. API Trees</a>
+      <a href="#split-core">8. Split Logic</a>
+      <a href="#split-profiles">9. Split Profiles</a>
+      <a href="#json">10. Split JSON</a>
+      <a href="#examples">11. Examples</a>
+      <a href="#summary">12. Summary</a>
+      <a href="#features">13. Features</a>
+    </nav>
+
+    <section id="storyline">
+      <h2>🎯 1. Business Story</h2>
+      <div class="story-points">
+        <span class="story-point">Customer Payment</span>
+        <span class="story-point">Many Stakeholders</span>
+        <span class="story-point">Shipment-Based Rules</span>
+        <span class="story-point">Auto Distribution</span>
+        <span class="story-point">Daily High Volume</span>
+      </div>
+      <div class="story-diagram">
+        <p class="flow-caption">Payout Picture</p>
+        <div class="story-top-row">
+          <div class="story-node">
+            <span class="story-node-icon">👤</span>
+            <span class="story-node-title">Customer</span>
+            <span class="story-node-sub">Single Payment</span>
+          </div>
+          <div class="story-arrow">➜</div>
+          <div class="story-node">
+            <span class="story-node-icon">📦</span>
+            <span class="story-node-title">FedEx Collection</span>
+            <span class="story-node-sub">Receives Funds</span>
+          </div>
+          <div class="story-arrow">➜</div>
+          <div class="story-core-wrap">
+            <div class="story-node core">
+              <span class="story-node-icon">⚙️</span>
+              <span class="story-node-title">SCB Split Engine</span>
+              <span class="story-node-sub">Applies Rules</span>
+            </div>
+            <span class="story-core-tag">Auto Split</span>
+          </div>
+        </div>
+
+        <div class="story-split-indicator">
+          <span class="story-down-arrow">⬇</span>
+        </div>
+
+        <div class="story-branch-grid">
+          <div class="story-branch">
+            <span class="story-branch-arrow">↙</span>
+            <div class="story-node">
+              <span class="story-node-icon">🚚</span>
+              <span class="story-node-title">Transport</span>
+              <span class="story-node-sub">Partner Payout</span>
+            </div>
+          </div>
+          <div class="story-branch">
+            <span class="story-branch-arrow">↙</span>
+            <div class="story-node">
+              <span class="story-node-icon">🧾</span>
+              <span class="story-node-title">Customs</span>
+              <span class="story-node-sub">Duty Payout</span>
+            </div>
+          </div>
+          <div class="story-branch">
+            <span class="story-branch-arrow">↘</span>
+            <div class="story-node">
+              <span class="story-node-icon">🛡️</span>
+              <span class="story-node-title">Insurance</span>
+              <span class="story-node-sub">Premium Only</span>
+            </div>
+          </div>
+          <div class="story-branch">
+            <span class="story-branch-arrow">↘</span>
+            <div class="story-node">
+              <span class="story-node-icon">🏢</span>
+              <span class="story-node-title">FedEx India</span>
+              <span class="story-node-sub">Residual</span>
+            </div>
+          </div>
+        </div>
+
+        <p class="story-subtitle">Two shipment types considered in today's demo</p>
+        <div class="story-legend-grid">
+          <div class="story-legend-item"><strong>Standard Stakeholders</strong><span>Transport Partner + Customs Partner + FedEx India</span></div>
+          <div class="story-legend-item"><strong>Premium Stakeholders</strong><span>Standard Stakeholders + Insurer</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="overview">
+      <h2>🧭 2. Demo Scope</h2>
+      <div class="grid-4">
+        <div class="card">
+          <div class="icon-title"><span class="icon">👤</span><h3>Client Onboarding</h3></div>
+          <ul class="tight-list">
+            <li>Onboard as Individual or Company</li>
+            <li>Vault provisioned in the same API call</li>
+            <li>Virtual account auto-assigned for inbound credit routing</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="icon-title"><span class="icon">💰</span><h3>Funding and Tracking</h3></div>
+          <ul class="tight-list">
+            <li>Customer credits arrive via RTA</li>
+            <li>VA number routes funds to correct vault</li>
+            <li>Vault balance updated in real time</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="icon-title"><span class="icon">📦</span><h3>Consignment Ring-Fencing</h3></div>
+          <ul class="tight-list">
+            <li>Payment contract created per consignment</li>
+            <li>Dedicated transaction vault per shipment</li>
+            <li>Quoted amount ring-fenced from party vault</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="icon-title"><span class="icon">🧮</span><h3>Split Payout</h3></div>
+          <ul class="tight-list">
+            <li>Standard or Premium profile applied</li>
+            <li>Multi-party payout scheduled in UPP</li>
+            <li>Residual always reconciles to zero</li>
+          </ul>
+        </div>
+      </div>
+      <div class="callout">One incoming customer payment. Multiple downstream settlements on independent timelines. Full traceability. <span class="tag">CORE STORY</span></div>
+    </section>
+
+    <section id="terms">
+      <h2>🧩 3. Key Terms</h2>
+      <div class="term-grid">
+        <div class="term-card"><div class="icon-title"><span class="icon">👥</span><h3>Party</h3></div><p class="subtle">FedEx client in UPP.</p></div>
+        <div class="term-card"><div class="icon-title"><span class="icon">🏦</span><h3>Vault</h3></div><p class="subtle">Logical wallet under one structure.</p></div>
+        <div class="term-card"><div class="icon-title"><span class="icon">🔢</span><h3>VA Number</h3></div><p class="subtle">Virtual account linked to a client vault.</p></div>
+        <div class="term-card"><div class="icon-title"><span class="icon">📁</span><h3>Transaction Vault</h3></div><p class="subtle">Consignment-specific fund bucket.</p></div>
+        <div class="term-card"><div class="icon-title"><span class="icon">🫙</span><h3>Suspense Vault</h3></div><p class="subtle">Parks unmatched funds.</p></div>
+        <div class="term-card"><div class="icon-title"><span class="icon">🧾</span><h3>Split Profile</h3></div><p class="subtle">Who gets paid and how.</p></div>
+        <div class="term-card"><div class="icon-title"><span class="icon">📆</span><h3>Settlement Plan</h3></div><p class="subtle">When each stakeholder gets settled.</p></div>
+        <div class="term-card"><div class="icon-title"><span class="icon">⭐</span><h3>Standard / Premium</h3></div><p class="subtle">Two shipment policy types in the demo.</p></div>
+      </div>
+    </section>
+
+    <section id="setup">
+      <h2>⚙️ 4. Current Setup</h2>
+      <div class="grid-4">
+        <div class="setup-card"><div class="icon-title"><span class="icon">📘</span><h3>Deal</h3></div><p class="subtle"><code>IN-0626-FEDEX-DEMO</code> is ready.</p></div>
+        <div class="setup-card"><div class="icon-title"><span class="icon">🏦</span><h3>Account</h3></div><p class="subtle">FedEx mapped to <code>24235234523452-IN-INR</code>.</p></div>
+        <div class="setup-card"><div class="icon-title"><span class="icon">🌳</span><h3>Vault Base</h3></div><p class="subtle">Root and suspense vault already created.</p></div>
+        <div class="setup-card"><div class="icon-title"><span class="icon">🔀</span><h3>Trees</h3></div><p class="subtle">Onboard, RTA, contract, amend, payout trees are ready.</p></div>
+      </div>
+      <div class="callout warn">The infrastructure is pre-configured. The live demo focuses on movement, visibility, and payout logic.</div>
+    </section>
+
+    <section id="vault-tree">
+      <h2>🌳 5. Vault Tree</h2>
+      <p class="subtle">Root and suspense sit at Level 1. Party vaults are Level 2, one per client. Each consignment ring-fences its own Transaction Vault at Level 3.</p>
+      <div class="vault-canvas">
+        <div style="display:flex;gap:0;min-width:1020px;align-items:flex-start">
+          <div style="display:flex;flex-direction:column;width:66px;flex-shrink:0;padding-right:8px;gap:0">
+            <div style="height:58px;display:flex;align-items:center;justify-content:flex-end">
+              <span style="background:var(--blue-deep-1);color:white;font-size:0.62rem;font-weight:700;padding:3px 7px;border-radius:6px;white-space:nowrap">Level 1</span>
+            </div>
+            <div style="height:20px"></div>
+            <div style="height:56px;display:flex;align-items:center;justify-content:flex-end">
+              <span style="background:var(--blue-100);color:white;font-size:0.62rem;font-weight:700;padding:3px 7px;border-radius:6px;white-space:nowrap">Level 2</span>
+            </div>
+            <div style="height:20px"></div>
+            <div style="height:56px;display:flex;align-items:center;justify-content:flex-end">
+              <span style="background:var(--green-100);color:white;font-size:0.62rem;font-weight:700;padding:3px 7px;border-radius:6px;white-space:nowrap">Level 3</span>
+            </div>
+          </div>
+          <div class="vault-layout" style="flex:1">
+            <div class="vault-level">
+              <div class="vault-node root">FedEx Root Vault</div>
+              <div class="vault-node suspense">Suspense Vault</div>
+            </div>
+            <div class="vault-connector"></div>
+            <div class="vault-level">
+              <div class="party-column">
+                <div class="vault-node party">Party Vault<br/><strong>Ankush Kumar</strong><br/><span style="font-size:0.65rem;opacity:0.75">Individual Client</span></div>
+                <div class="vault-connector"></div>
+                <div class="txn-row">
+                  <div class="vault-node txn">Consignment<br/><strong>#FDXGGHKG</strong></div>
+                  <div class="vault-node txn">Consignment<br/><strong>#FDXHRT42</strong></div>
+                  <div class="vault-node txn">Consignment<br/><strong>#FDXKPL87</strong></div>
+                </div>
+              </div>
+              <div class="party-column">
+                <div class="vault-node party">Party Vault<br/><strong>RMZ SME</strong><br/><span style="font-size:0.65rem;opacity:0.75">Company Client</span></div>
+                <div class="vault-connector"></div>
+                <div class="txn-row">
+                  <div class="vault-node txn">Consignment<br/><strong>#FDXMNB21</strong></div>
+                  <div class="vault-node txn">Consignment<br/><strong>#FDXNCD56</strong></div>
+                  <div class="vault-node txn">Consignment<br/><strong>#FDXPQR93</strong></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="callout info">Vault UI is list-based. This view makes the hierarchy and client isolation easier to follow during the demo.</div>
+    </section>
+
+    <section id="journey">
+      <h2>🛣️ 6. End-to-End Demo Journey</h2>
+      <div class="grid-3">
+        <div class="journey-card">
+          <div class="icon-title"><span class="icon">1</span><h3>Onboard Individual</h3></div>
+          <p class="subtle">Create party record for Ankush Kumar. A dedicated Level 2 party vault is provisioned and a virtual account number auto-assigned for inbound credit routing.</p>
+        </div>
+        <div class="journey-card">
+          <div class="icon-title"><span class="icon">2</span><h3>Onboard Company</h3></div>
+          <p class="subtle">Register RMZ SME as a company entity. Same orchestration as individual — party, vault, and VA created in a single API call, ready to receive funds.</p>
+        </div>
+        <div class="journey-card">
+          <div class="icon-title"><span class="icon">3</span><h3>Top Up Vault</h3></div>
+          <p class="subtle">Simulate a customer payment via RTA credit. The VA number in the narration routes the inbound credit directly to the correct party vault, updating the balance in real time.</p>
+        </div>
+        <div class="journey-card">
+          <div class="icon-title"><span class="icon">4</span><h3>Book Consignment</h3></div>
+          <p class="subtle">Create a payment contract with consignment attributes (weight, product type). A Level 3 transaction vault is created and the quoted shipment amount is ring-fenced from the party vault.</p>
+        </div>
+        <div class="journey-card">
+          <div class="icon-title"><span class="icon">5</span><h3>Amend Consignment</h3></div>
+          <p class="subtle">Customer confirms the final weight or billed amount. The engine calculates the delta between the original quote and the final invoice, moving only the difference — up or down.</p>
+        </div>
+        <div class="journey-card">
+          <div class="icon-title"><span class="icon">6</span><h3>Trigger Payout</h3></div>
+          <p class="subtle">PAY action is fired on the transaction vault. The split calculator runs LOWER/HIGHER logic against chargeableWeight, computes each party's share, and schedules independent settlement per stakeholder.</p>
+        </div>
+      </div>
+      <div class="timeline">
+        <span class="step">Onboard</span><span class="arrow">→</span>
+        <span class="step">Top Up</span><span class="arrow">→</span>
+        <span class="step">Book</span><span class="arrow">→</span>
+        <span class="step">Amend</span><span class="arrow">→</span>
+        <span class="step">Payout</span>
+      </div>
+    </section>
+
+    <section id="api-flows">
+      <h2>🔀 7. API Trees and Payload Mapping</h2>
+
+      <details class="flow" open>
+        <summary>👤 ONBOARD_INDIVIDUAL / ONBOARD_COMPANY → ONBOARD-PARTY-VAULT</summary>
+        <div class="flow-body">
+          <div class="chip-row">
+            <span class="chip">ONBOARD PARTY</span><span class="chip-arrow">→</span>
+            <span class="chip">CHECK ROOT / PARENT</span><span class="chip-arrow">→</span>
+            <span class="chip">CREATE VAULT</span><span class="chip-arrow">→</span>
+            <span class="chip">VA MGMT</span><span class="chip-arrow">→</span>
+            <span class="chip">ACCOUNT LINK</span><span class="chip-arrow">→</span>
+            <span class="chip">VA NOTIFICATION</span>
+          </div>
+          <div class="snippet-grid">
+            <div class="snippet-card">
+              <h3>Individual payload fields</h3>
+              <ul class="tight-list">
+                <li><strong>partyType:</strong> Individual</li>
+                <li><strong>individual.name:</strong> customer identity</li>
+                <li><strong>vaultDetails.vaultName / vaultNo:</strong> vault creation</li>
+                <li><strong>treeIdentifiers:</strong> root tree mapping</li>
+                <li><strong>virtualAccountDetails.vaNumber:</strong> null → auto-assigned</li>
+              </ul>
+              <div class="code-box">
+                <div class="code-head">ONBOARD_INDIVIDUAL snippet</div>
+                <pre>{
+  "dealRefId": "IN-0626-FEDEX-DEMO",
+  "partyType": "Individual",
+  "individual": {
+    "name": "AKRITI SINGH",
+    "taxId": "ABEWE0293W"
+  },
+  "vaultDetails": {
+    "vaultName": "AKRITI SINGH",
+    "vaultNo": "AKRITISINGH",
+    "treeIdentifiers": {
+      "vaultTreeNo": "FEDEX-ROOT-01",
+      "physicalAccountNo": "24235234523452",
+      "country": "IN",
+      "assetCurrency": "INR"
+    },
+    "virtualAccountDetails": {
+      "vaNumber": null
+    }
+  }
+}</pre>
+              </div>
+            </div>
+            <div class="snippet-card">
+              <h3>Company payload fields</h3>
+              <ul class="tight-list">
+                <li><strong>partyType:</strong> Company</li>
+                <li><strong>company.companyName:</strong> legal entity</li>
+                <li><strong>registrationNumber / taxId:</strong> company details</li>
+                <li><strong>vaultDetails:</strong> same vault logic as individual</li>
+              </ul>
+              <div class="code-box">
+                <div class="code-head">ONBOARD_COMPANY snippet</div>
+                <pre>{
+  "dealRefId": "IN-0626-FEDEX-DEMO",
+  "partyType": "Company",
+  "company": {
+    "companyName": "HKB SME Ltd.",
+    "registrationNumber": "440306501135035",
+    "taxId": "SJFSC00233E"
+  },
+  "vaultDetails": {
+    "vaultName": "HKB SME",
+    "vaultNo": "HKBSME",
+    "treeIdentifiers": {
+      "vaultTreeNo": "FEDEX-ROOT-01",
+      "physicalAccountNo": "24235234523452",
+      "country": "IN",
+      "assetCurrency": "INR"
+    }
+  }
+}</pre>
+              </div>
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <details class="flow">
+        <summary>💰 CLIENT_VAULT_TOPUP → CR-RTA</summary>
+        <div class="flow-body">
+          <div class="chip-row">
+            <span class="chip">FETCH VBAN</span><span class="chip-arrow">→</span>
+            <span class="chip">TOP-UP TXN</span><span class="chip-arrow">→</span>
+            <span class="chip">FETCH ACCOUNT</span><span class="chip-arrow">→</span>
+            <span class="chip">CREDIT NOTIFICATION</span>
+          </div>
+          <ul class="tight-list">
+            <li><strong>TrnAmount:</strong> credit amount</li>
+            <li><strong>CreditDebitFlag:</strong> C for credit</li>
+            <li><strong>ExtendedNarrations.Narration2:</strong> carries the <code>vaNumber</code></li>
+          </ul>
+          <div class="code-box">
+            <div class="code-head">CLIENT_VAULT_TOPUP snippet</div>
+            <pre>&lt;ns2:TrnAmount&gt;{{trnAmount}}&lt;/ns2:TrnAmount&gt;
+&lt;ns2:CreditDebitFlag&gt;C&lt;/ns2:CreditDebitFlag&gt;
+&lt;ns2:ExtendedNarrations&gt;
+  &lt;ns2:Narration2&gt;{{vaNumber}}&lt;/ns2:Narration2&gt;
+&lt;/ns2:ExtendedNarrations&gt;</pre>
+          </div>
+        </div>
+      </details>
+
+      <details class="flow">
+        <summary>📦 PROFORMA_INVOICE → CREATE-CONDITIONAL-CONTRACT</summary>
+        <div class="flow-body">
+          <div class="chip-row">
+            <span class="chip">FETCH PARENT VAULT</span><span class="chip-arrow">→</span>
+            <span class="chip">CREATE TXN VAULT</span><span class="chip-arrow">→</span>
+            <span class="chip">MOVE PARTY → TXN</span>
+          </div>
+          <ul class="tight-list">
+            <li><strong>platformRefId:</strong> consignment reference</li>
+            <li><strong>productType / productCategory:</strong> policy selector</li>
+            <li><strong>chargeableWeight:</strong> split input</li>
+            <li><strong>paymentContractAmount:</strong> quoted amount to ring-fence</li>
+          </ul>
+          <div class="code-box">
+            <div class="code-head">PROFORMA_INVOICE snippet</div>
+            <pre>{
+  "paymentReleaseType": "Conditional",
+  "dealRefId": "IN-0626-FEDEX-DEMO",
+  "platformRefId": "FEDEXDEMO{{random6String}}",
+  "paymentContract": {
+    "paymentContractAttributes": {
+      "productType": "Carrier Uninsured",
+      "productCategory": "Standard Goods",
+      "chargeableWeight": "{{chargeableWeight1}}"
+    },
+    "debtor": {
+      "paymentInfo": {
+        "partyRefId": "{{partyRefId}}",
+        "paymentContractAmount": {{paymentContractAmount1}},
+        "accountNumber": {{vaNumber}}
+      }
+    }
+  }
+}</pre>
+          </div>
+        </div>
+      </details>
+
+      <details class="flow">
+        <summary>🧾 FINAL_INVOICE → AMEND-CONTRACT</summary>
+        <div class="flow-body">
+          <div class="chip-row">
+            <span class="chip">FETCH TXN VAULT</span><span class="chip-arrow">→</span>
+            <span class="chip">READ BALANCE</span><span class="chip-arrow">→</span>
+            <span class="chip">VALIDATE DELTA</span><span class="chip-arrow">→</span>
+            <span class="chip">AMEND MOVEMENT</span>
+          </div>
+          <ul class="tight-list">
+            <li><strong>platformRefId:</strong> target consignment vault</li>
+            <li><strong>revisedQuotation:</strong> final billed amount</li>
+            <li><strong>chargeableWeight:</strong> retained for same contract context</li>
+          </ul>
+          <div class="code-box">
+            <div class="code-head">FINAL_INVOICE snippet</div>
+            <pre>{
+  "platformRefId": "{{platformRefId}}",
+  "paymentContract": {
+    "debtor": {
+      "paymentInfo": {
+        "partyRefId": "{{partyRefId}}",
+        "paymentContractAmount": {{revisedQuotation}},
+        "accountNumber": {{vaNumber}}
+      }
+    },
+    "paymentContractAttributes": {
+      "productType": "Carrier Uninsured",
+      "productCategory": "Standard Goods",
+      "chargeableWeight": "{{chargeableWeight1}}"
+    }
+  }
+}</pre>
+          </div>
+        </div>
+      </details>
+
+      <details class="flow">
+        <summary>💸 PAYOUT → MANAGE-CONTRACT</summary>
+        <div class="flow-body">
+          <div class="chip-row">
+            <span class="chip">FETCH TXN VAULT</span><span class="chip-arrow">→</span>
+            <span class="chip">DEBIT ANTICIPATION</span><span class="chip-arrow">→</span>
+            <span class="chip">PAYOUT CALCULATOR</span><span class="chip-arrow">→</span>
+            <span class="chip">SCHD-PAY</span>
+          </div>
+          <ul class="tight-list">
+            <li><strong>action:</strong> PAY</li>
+            <li><strong>from.accountNumber:</strong> client VA context</li>
+            <li><strong>contractData.paymentContractAttributes:</strong> Standard vs Premium selection</li>
+            <li><strong>paymentContractAmount:</strong> amount released for payout</li>
+          </ul>
+          <div class="code-box">
+            <div class="code-head">PAYOUT snippet</div>
+            <pre>{
+  "action": "PAY",
+  "paymentRequestId": "{{platformRefId}}01",
+  "platformRefId": "{{platformRefId}}",
+  "from": {
+    "accountNumber": {{vaNumber}},
+    "partyRefId": "{{partyRefId}}"
+  },
+  "contractData": {
+    "paymentContract": {
+      "paymentContractAttributes": {
+        "productType": "Carrier Uninsured",
+        "productCategory": "Standard Goods",
+        "chargeableWeight": "{{chargeableWeight1}}"
+      }
+    }
+  }
+}</pre>
+          </div>
+        </div>
+      </details>
+    </section>
+
+    <section id="split-core">
+      <h2>🧮 8. Split Logic</h2>
+      <div class="grid-3">
+        <div class="term-card"><div class="icon-title"><span class="icon">➗</span><h3>SPLIT_TIER</h3></div><ul class="muted-list"><li>Weight crosses each slab boundary</li><li>Each slab adds its own fixed charge</li><li>Total = sum of all traversed slabs</li></ul></div>
+        <div class="term-card"><div class="icon-title"><span class="icon">📏</span><h3>FLAT_TIER</h3></div><ul class="muted-list"><li>Finds the single matching weight band</li><li>Applies that band's rate to full transaction</li><li>Simple, predictable single-band result</li></ul></div>
+        <div class="term-card"><div class="icon-title"><span class="icon">⬇️</span><h3>LOWER</h3></div><ul class="muted-list"><li>Runs both SPLIT and FLAT methods</li><li>Picks the cheaper result</li><li>Used for Transporter — cost protection</li></ul></div>
+        <div class="term-card"><div class="icon-title"><span class="icon">⬆️</span><h3>HIGHER</h3></div><ul class="muted-list"><li>Runs both SPLIT and FLAT methods</li><li>Picks the richer result</li><li>Used for Customs — duty never under-collected</li></ul></div>
+        <div class="term-card"><div class="icon-title"><span class="icon">✅</span><h3>ALL</h3></div><ul class="muted-list"><li>No comparison performed</li><li>Always paid unconditionally</li><li>Used for Insurer — mandatory coverage</li></ul></div>
+        <div class="term-card"><div class="icon-title"><span class="icon">🛡️</span><h3>minAmount</h3></div><ul class="muted-list"><li>Guaranteed floor for every party</li><li>Applied after LOWER/HIGHER selection</li><li>If computed &lt; min, pay min — always</li></ul></div>
+      </div>
+    </section>
+
+    <section id="split-profiles">
+      <h2>📋 9. Split Profiles — Standard vs Premium</h2>
+      <div class="grid-2">
+        <div class="card">
+          <div class="icon-title"><span class="icon">📦</span><h3>Standard Profile — 3 Parties</h3></div>
+          <ul class="tight-list">
+            <li><strong>Transporter:</strong> SPLIT_TIER FIXED, payOnly LOWER · T+2 settlement · Slab charges ₹400/₹300/₹600/₹1,200/₹2,000</li>
+            <li><strong>Customs:</strong> SPLIT + FLAT PERCENTAGE, payOnly HIGHER · Quarterly · 2–3.5% SPLIT, 2–7% FLAT</li>
+            <li><strong>FedEx India (Platform):</strong> Residual 100% · Fortnightly</li>
+          </ul>
+          <p class="subtle" style="margin-top:8px">Use case: regular uninsured domestic or international goods. No insurance leg. Lower transporter slab charges and lower customs duty rates across all bands.</p>
+        </div>
+        <div class="card">
+          <div class="icon-title"><span class="icon">⭐</span><h3>Premium Profile — 4 Parties</h3></div>
+          <ul class="tight-list">
+            <li><strong>Transporter:</strong> Higher slab charges (~25% richer: ₹500/₹400/₹750/₹1,500/₹2,500) · T+1 settlement</li>
+            <li><strong>Customs:</strong> Higher duty rates · 2.5–4.5% SPLIT, 2.5–9% FLAT · Quarterly</li>
+            <li><strong>Insurer:</strong> FLAT_TIER, payOnly ALL · 0.75–1.5% of TXN · Weekly (Mon) — always paid</li>
+            <li><strong>FedEx India (Platform):</strong> Residual 100% · Fortnightly</li>
+          </ul>
+          <p class="subtle" style="margin-top:8px">Use case: fragile, high-value, or insured cargo. Adds a mandatory 4th party (Insurer) on every shipment. Richer payout rates across all parties. Same orchestration path — different profile.</p>
+        </div>
+      </div>
+      <div class="callout info">Standard → 3 parties · Premium → 4 parties. The extra party (Insurer) is always paid on every Premium transaction regardless of method comparison. Higher transporter slab charges and higher customs rates in Premium. <span class="tag">KEY DIFF</span></div>
+    </section>
+
+    <section id="json">
+      <h2>🧾 10. Split JSON</h2>
+      <p class="subtle">Full Standard and Premium policy configuration.</p>
+      <details class="json-wrap">
+        <summary>View / Hide full splitPayProfiles JSON</summary>
+        <div class="json-toolbar"><button class="copy-btn" onclick="copyJson()">Copy JSON</button></div>
+        <pre id="jsonContent">{
+  "splitPayProfiles": [
+    {
+      "splitPayId": "logistics_standard",
+      "parties": [
+        {
+          "responsibility": "Transporter",
+          "pricePlan": [
+            {
+              "pricePlanId": "FD_Split_Plan_Standard",
+              "payOnly": "LOWER",
+              "minAmount": 50,
+              "maxAmount": 99999999,
+              "computationMethods": [
+                {
+                  "tierType": "SPLIT_TIER",
+                  "rangeUnitAttribute": "paymentContract.paymentContractAttributes.chargeableWeight",
+                  "computationOn": "TXN_AMOUNT",
+                  "payoutRates": [
+                    { "from": 0,   "to": 5,       "rate": 400,  "rateType": "FIXED" },
+                    { "from": 6,   "to": 10,      "rate": 300,  "rateType": "FIXED" },
+                    { "from": 11,  "to": 25,      "rate": 600,  "rateType": "FIXED" },
+                    { "from": 26,  "to": 100,     "rate": 1200, "rateType": "FIXED" },
+                    { "from": 101, "to": 9999999, "rate": 2000, "rateType": "FIXED" }
+                  ]
+                },
+                {
+                  "tierType": "FLAT_TIER",
+                  "rangeUnitAttribute": "paymentContract.paymentContractAttributes.chargeableWeight",
+                  "computationOn": "TXN_AMOUNT",
+                  "payoutRates": [
+                    { "from": 0,   "to": 20,      "rate": 700,  "rateType": "FIXED" },
+                    { "from": 21,  "to": 50,      "rate": 1600, "rateType": "FIXED" },
+                    { "from": 51,  "to": 100,     "rate": 2800, "rateType": "FIXED" },
+                    { "from": 101, "to": 9999999, "rate": 5500, "rateType": "FIXED" }
+                  ]
+                }
+              ]
+            }
+          ],
+          "settlementPlan": {
+            "settlementCycle": "T_Plus_N",
+            "t_Plus_N": 2,
+            "settlementCutoff": 0,
+            "settlementDelay": 0
+          }
+        },
+        {
+          "responsibility": "Customs",
+          "pricePlan": [
+            {
+              "pricePlanId": "FD_Split_Plan_Standard",
+              "payOnly": "HIGHER",
+              "minAmount": 50,
+              "maxAmount": 9999999,
+              "computationMethods": [
+                {
+                  "tierType": "SPLIT_TIER",
+                  "rangeUnitAttribute": "paymentContract.paymentContractAttributes.chargeableWeight",
+                  "computationOn": "TXN_AMOUNT",
+                  "payoutRates": [
+                    { "from": 0,   "to": 30,     "rate": 2.0, "rateType": "PERCENTAGE" },
+                    { "from": 31,  "to": 60,     "rate": 2.5, "rateType": "PERCENTAGE" },
+                    { "from": 61,  "to": 120,    "rate": 3.0, "rateType": "PERCENTAGE" },
+                    { "from": 121, "to": 999999, "rate": 3.5, "rateType": "PERCENTAGE" }
+                  ]
+                },
+                {
+                  "tierType": "FLAT_TIER",
+                  "rangeUnitAttribute": "paymentContract.paymentContractAttributes.chargeableWeight",
+                  "computationOn": "TXN_AMOUNT",
+                  "payoutRates": [
+                    { "from": 0,   "to": 20,     "rate": 2.0, "rateType": "PERCENTAGE" },
+                    { "from": 21,  "to": 50,     "rate": 4.0, "rateType": "PERCENTAGE" },
+                    { "from": 51,  "to": 100,    "rate": 5.5, "rateType": "PERCENTAGE" },
+                    { "from": 101, "to": 999999, "rate": 7.0, "rateType": "PERCENTAGE" }
+                  ]
+                }
+              ]
+            }
+          ],
+          "settlementPlan": {
+            "settlementCycle": "Quarterly",
+            "dayOfMonth": 3,
+            "month": "Feb",
+            "settlementCutoff": 1,
+            "settlementDelay": 1
+          }
+        },
+        {
+          "responsibility": "Platform",
+          "pricePlan": [
+            {
+              "pricePlanId": "FD_Split_Plan_Standard",
+              "tierType": "FLAT_TIER",
+              "rangeUnitAttribute": "paymentContract.paymentContractAttributes.chargeableWeight",
+              "computationOn": "RESIDUAL_AMOUNT_1",
+              "payoutRates": [
+                { "from": 0, "to": 9999999999999, "rate": 100, "rateType": "PERCENTAGE" }
+              ]
+            }
+          ],
+          "settlementPlan": {
+            "settlementCycle": "Fortnightly",
+            "fortnightlyInterval": "1-15",
+            "settlementCutoff": 1,
+            "settlementDelay": 1
+          }
+        }
+      ]
+    },
+    {
+      "splitPayId": "logistics_premium",
+      "parties": [
+        {
+          "responsibility": "Transporter",
+          "pricePlan": [
+            {
+              "pricePlanId": "FD_Split_Plan_Premium",
+              "payOnly": "LOWER",
+              "minAmount": 50,
+              "maxAmount": 99999999,
+              "computationMethods": [
+                {
+                  "tierType": "SPLIT_TIER",
+                  "rangeUnitAttribute": "paymentContract.paymentContractAttributes.chargeableWeight",
+                  "computationOn": "TXN_AMOUNT",
+                  "payoutRates": [
+                    { "from": 0,   "to": 5,       "rate": 500,  "rateType": "FIXED" },
+                    { "from": 6,   "to": 10,      "rate": 400,  "rateType": "FIXED" },
+                    { "from": 11,  "to": 25,      "rate": 750,  "rateType": "FIXED" },
+                    { "from": 26,  "to": 100,     "rate": 1500, "rateType": "FIXED" },
+                    { "from": 101, "to": 9999999, "rate": 2500, "rateType": "FIXED" }
+                  ]
+                },
+                {
+                  "tierType": "FLAT_TIER",
+                  "rangeUnitAttribute": "paymentContract.paymentContractAttributes.chargeableWeight",
+                  "computationOn": "TXN_AMOUNT",
+                  "payoutRates": [
+                    { "from": 0,   "to": 20,      "rate": 900,  "rateType": "FIXED" },
+                    { "from": 21,  "to": 50,      "rate": 2000, "rateType": "FIXED" },
+                    { "from": 51,  "to": 100,     "rate": 3500, "rateType": "FIXED" },
+                    { "from": 101, "to": 9999999, "rate": 7000, "rateType": "FIXED" }
+                  ]
+                }
+              ]
+            }
+          ],
+          "settlementPlan": {
+            "settlementCycle": "T_Plus_N",
+            "t_Plus_N": 1,
+            "settlementCutoff": 0,
+            "settlementDelay": 0
+          }
+        },
+        {
+          "responsibility": "Customs",
+          "pricePlan": [
+            {
+              "pricePlanId": "FD_Split_Plan_Premium",
+              "payOnly": "HIGHER",
+              "minAmount": 50,
+              "maxAmount": 9999999,
+              "computationMethods": [
+                {
+                  "tierType": "SPLIT_TIER",
+                  "rangeUnitAttribute": "paymentContract.paymentContractAttributes.chargeableWeight",
+                  "computationOn": "TXN_AMOUNT",
+                  "payoutRates": [
+                    { "from": 0,   "to": 30,     "rate": 2.5, "rateType": "PERCENTAGE" },
+                    { "from": 31,  "to": 60,     "rate": 3.0, "rateType": "PERCENTAGE" },
+                    { "from": 61,  "to": 120,    "rate": 3.5, "rateType": "PERCENTAGE" },
+                    { "from": 121, "to": 999999, "rate": 4.5, "rateType": "PERCENTAGE" }
+                  ]
+                },
+                {
+                  "tierType": "FLAT_TIER",
+                  "rangeUnitAttribute": "paymentContract.paymentContractAttributes.chargeableWeight",
+                  "computationOn": "TXN_AMOUNT",
+                  "payoutRates": [
+                    { "from": 0,   "to": 20,     "rate": 2.5, "rateType": "PERCENTAGE" },
+                    { "from": 21,  "to": 50,     "rate": 5.0, "rateType": "PERCENTAGE" },
+                    { "from": 51,  "to": 100,    "rate": 7.0, "rateType": "PERCENTAGE" },
+                    { "from": 101, "to": 999999, "rate": 9.0, "rateType": "PERCENTAGE" }
+                  ]
+                }
+              ]
+            }
+          ],
+          "settlementPlan": {
+            "settlementCycle": "Quarterly",
+            "dayOfMonth": 3,
+            "month": "Feb",
+            "settlementCutoff": 1,
+            "settlementDelay": 1
+          }
+        },
+        {
+          "responsibility": "Insurer",
+          "pricePlan": [
+            {
+              "pricePlanId": "FD_Split_Plan_Premium",
+              "payOnly": "ALL",
+              "minAmount": 50,
+              "maxAmount": 9999999,
+              "computationMethods": [
+                {
+                  "tierType": "FLAT_TIER",
+                  "rangeUnitAttribute": "paymentContract.paymentContractAttributes.chargeableWeight",
+                  "computationOn": "TXN_AMOUNT",
+                  "payoutRates": [
+                    { "from": 0,   "to": 10,      "rate": 0.75, "rateType": "PERCENTAGE" },
+                    { "from": 11,  "to": 25,      "rate": 1.0,  "rateType": "PERCENTAGE" },
+                    { "from": 26,  "to": 100,     "rate": 1.25, "rateType": "PERCENTAGE" },
+                    { "from": 101, "to": 9999999, "rate": 1.5,  "rateType": "PERCENTAGE" }
+                  ]
+                }
+              ]
+            }
+          ],
+          "settlementPlan": {
+            "settlementCycle": "Weekly",
+            "weekly": "Mon",
+            "settlementCutoff": 1,
+            "settlementDelay": 1
+          }
+        },
+        {
+          "responsibility": "Platform",
+          "pricePlan": [
+            {
+              "pricePlanId": "FD_Split_Plan_Premium",
+              "tierType": "FLAT_TIER",
+              "rangeUnitAttribute": "paymentContract.paymentContractAttributes.chargeableWeight",
+              "computationOn": "RESIDUAL_AMOUNT_1",
+              "payoutRates": [
+                { "from": 0, "to": 9999999999999, "rate": 100, "rateType": "PERCENTAGE" }
+              ]
+            }
+          ],
+          "settlementPlan": {
+            "settlementCycle": "Fortnightly",
+            "fortnightlyInterval": "1-15",
+            "settlementCutoff": 1,
+            "settlementDelay": 1
+          }
+        }
+      ]
+    }
+  ]
+}</pre>
+      </details>
+    </section>
+
+    <section id="examples">
+      <h2>📊 11. Detailed Payout Examples</h2>
+      <p class="subtle">Primary comparison: same 25 kg / ₹10,000 shipment under Standard vs Premium. Four additional scenarios below — collapsible, two side by side.</p>
+
+      <div class="primary-example-grid">
+        <div class="example-card standard primary">
+          <div class="example-header">
+            <div>
+              <div class="example-title">Example 1 — Standard Goods · SPLIT_TIER Wins; Customs Rate Diverges</div>
+              <div class="example-meta">25 kg · ₹10,000 · Standard Plan · SPLIT_TIER wins for Transporter; FLAT_TIER wins for Customs</div>
+            </div>
+            <span class="pill standard">Standard</span>
+          </div>
+          <div class="example-body">
+            <div class="method-block">
+              <div class="method-label">🚚 Transporter — payOnly: LOWER</div>
+              <div class="split-label">SPLIT_TIER result</div>
+              <table>
+                <thead><tr><th>Slab</th><th>Charge</th><th>Running Total</th></tr></thead>
+                <tbody>
+                  <tr class="slab-row"><td>0 – 5 kg</td><td>₹400</td><td>₹400</td></tr>
+                  <tr class="slab-row"><td>6 – 10 kg</td><td>₹300</td><td>₹700</td></tr>
+                  <tr class="slab-row"><td>11 – 25 kg</td><td>₹600</td><td>₹1,300</td></tr>
+                  <tr class="slab-subtotal"><td colspan="2">SPLIT_TIER Total</td><td><strong>₹1,300</strong></td></tr>
+                </tbody>
+              </table>
+              <div class="split-label" style="margin-top:8px">FLAT_TIER result</div>
+              <table>
+                <tbody>
+                  <tr class="slab-row"><td>21–50 kg band</td><td colspan="2"><strong>₹1,600</strong></td></tr>
+                  <tr class="chosen-row"><td colspan="2">LOWER → min(₹1,300, ₹1,600)</td><td>₹1,300 <span class="chosen-tag">CHOSEN</span></td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <hr class="divider" />
+
+            <div class="method-block">
+              <div class="method-label">🧾 Customs — payOnly: HIGHER</div>
+              <table>
+                <tbody>
+                  <tr class="slab-row"><td>SPLIT_TIER (0–30 band)</td><td>2.0% × ₹10,000</td><td>₹200</td></tr>
+                  <tr class="slab-row"><td>FLAT_TIER (21–50 band)</td><td>4.0% × ₹10,000</td><td>₹400</td></tr>
+                  <tr class="chosen-row"><td colspan="2">HIGHER → max(₹200, ₹400)</td><td>₹400 <span class="chosen-tag">CHOSEN</span></td></tr>
+                </tbody>
+              </table>
+              <div class="note-info">ℹ️ 25 kg sits within 0–30 band for SPLIT_TIER (2%), but crosses into 21–50 band for FLAT_TIER (4%). Different band definitions → different results. HIGHER correctly picks ₹400.</div>
+            </div>
+
+            <div class="payout-summary">
+              <h4>Final Payout — ₹10,000 Transaction</h4>
+              <div class="payout-bars">
+                <div class="payout-row"><div class="payout-label">Transporter</div><div class="bar-track"><div class="bar-fill bar-transporter" style="width:13%"></div></div><div class="payout-amount">₹1,300</div><div class="payout-pct">13%</div></div>
+                <div class="payout-row"><div class="payout-label">Customs</div><div class="bar-track"><div class="bar-fill bar-customs" style="width:4%"></div></div><div class="payout-amount">₹400</div><div class="payout-pct">4%</div></div>
+                <div class="payout-row"><div class="payout-label">FedEx India</div><div class="bar-track"><div class="bar-fill bar-platform" style="width:83%"></div></div><div class="payout-amount">₹8,300</div><div class="payout-pct">83%</div></div>
+                <div class="payout-row total-row"><div class="payout-label">TOTAL</div><div class="bar-track"></div><div class="payout-amount">₹10,000</div><div class="payout-pct">100%</div></div>
+              </div>
+            </div>
+            <div class="note">Standard profile: 3 parties — Transporter (₹1,300, 3 slabs), Customs (₹400, FLAT wins), FedEx India (₹8,300 residual, 83%). No insurer leg.</div>
+          </div>
+        </div>
+
+        <div class="example-card premium primary">
+          <div class="example-header">
+            <div>
+              <div class="example-title">Example 2 — Premium vs Standard (Same 25 kg) · Higher Rates + Insurer Added</div>
+              <div class="example-meta">25 kg · ₹10,000 · Premium Plan · Direct comparison with Example 1 — same shipment, richer profile, 4 parties</div>
+            </div>
+            <span class="pill premium">Premium</span>
+          </div>
+          <div class="example-body">
+            <div class="method-block">
+              <div class="method-label">🚚 Transporter — payOnly: LOWER (Premium slab charges ~25% higher)</div>
+              <div class="split-label">SPLIT_TIER result</div>
+              <table>
+                <thead><tr><th>Slab</th><th>Charge</th><th>Running Total</th></tr></thead>
+                <tbody>
+                  <tr class="slab-row"><td>0 – 5 kg</td><td>₹500</td><td>₹500</td></tr>
+                  <tr class="slab-row"><td>6 – 10 kg</td><td>₹400</td><td>₹900</td></tr>
+                  <tr class="slab-row"><td>11 – 25 kg</td><td>₹750</td><td>₹1,650</td></tr>
+                  <tr class="slab-subtotal"><td colspan="2">SPLIT_TIER Total</td><td><strong>₹1,650</strong></td></tr>
+                </tbody>
+              </table>
+              <div class="split-label" style="margin-top:8px">FLAT_TIER result</div>
+              <table>
+                <tbody>
+                  <tr class="slab-row"><td>21–50 kg band</td><td colspan="2"><strong>₹2,000</strong></td></tr>
+                  <tr class="chosen-row"><td colspan="2">LOWER → min(₹1,650, ₹2,000)</td><td>₹1,650 <span class="chosen-tag">CHOSEN</span></td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <hr class="divider" />
+
+            <div class="method-block">
+              <div class="method-label">🧾 Customs — payOnly: HIGHER (premium rates: FLAT 2.5% → 5.0%)</div>
+              <table>
+                <tbody>
+                  <tr class="slab-row"><td>SPLIT_TIER (0–30 band)</td><td>2.5% × ₹10,000</td><td>₹250</td></tr>
+                  <tr class="slab-row"><td>FLAT_TIER (21–50 band)</td><td>5.0% × ₹10,000</td><td>₹500</td></tr>
+                  <tr class="chosen-row"><td colspan="2">HIGHER → max(₹250, ₹500)</td><td>₹500 <span class="chosen-tag">CHOSEN</span></td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <hr class="divider" />
+
+            <div class="method-block">
+              <div class="method-label">🛡️ Insurer — payOnly: ALL (always paid, no comparison)</div>
+              <table>
+                <tbody>
+                  <tr class="chosen-row"><td>11–25 kg band</td><td>1.0% × ₹10,000</td><td>₹100 <span class="always-tag">ALWAYS PAID</span></td></tr>
+                </tbody>
+              </table>
+              <div class="note-green">✅ No LOWER/HIGHER for Insurer. ₹100 goes out unconditionally — mandatory cargo coverage on every Premium shipment.</div>
+            </div>
+
+            <div class="payout-summary">
+              <h4>Final Payout — ₹10,000 Transaction (Premium)</h4>
+              <div class="payout-bars">
+                <div class="payout-row"><div class="payout-label">Transporter</div><div class="bar-track"><div class="bar-fill bar-transporter" style="width:16.5%"></div></div><div class="payout-amount">₹1,650</div><div class="payout-pct">16.5%</div></div>
+                <div class="payout-row"><div class="payout-label">Customs</div><div class="bar-track"><div class="bar-fill bar-customs" style="width:5%"></div></div><div class="payout-amount">₹500</div><div class="payout-pct">5%</div></div>
+                <div class="payout-row"><div class="payout-label">Insurer</div><div class="bar-track"><div class="bar-fill bar-insurer" style="width:1%"></div></div><div class="payout-amount">₹100</div><div class="payout-pct">1%</div></div>
+                <div class="payout-row"><div class="payout-label">FedEx India</div><div class="bar-track"><div class="bar-fill bar-platform" style="width:77.5%"></div></div><div class="payout-amount">₹7,750</div><div class="payout-pct">77.5%</div></div>
+                <div class="payout-row total-row"><div class="payout-label">TOTAL</div><div class="bar-track"></div><div class="payout-amount">₹10,000</div><div class="payout-pct">100%</div></div>
+              </div>
+            </div>
+            <div class="note-info">ℹ️ <strong>Standard vs Premium — same 25 kg / ₹10,000:</strong> Transporter earns ₹350 more (₹1,300 → ₹1,650) · Customs ₹100 more (₹400 → ₹500) · Insurer ₹100 (new 4th party, payOnly ALL) · FedEx India: ₹8,300 → ₹7,750 (−₹550). Premium freight revenue funds richer stakeholder terms.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout info">Primary comparison: same weight, same amount, same orchestration path — different split profile. Standard = 3 parties, Premium = 4 parties.</div>
+
+      <div class="additional-example-grid">
+
+        <!-- EX 3 -->
+        <details class="example-details full-card standard">
+          <summary>
+            <div>
+              <div class="example-title">Example 3 — Light Parcel · SPLIT_TIER Wins; Customs minAmount Kicks In</div>
+              <div class="example-meta">3 kg · ₹800 · Standard Plan · Only 1 slab traversed; computed duty falls below guaranteed minimum</div>
+            </div>
+            <span class="pill standard">Standard</span>
+          </summary>
+          <div class="example-detail-body">
+            <div class="method-block">
+              <div class="method-label">🚚 Transporter — payOnly: LOWER</div>
+              <div class="split-label">▶ SPLIT_TIER: 3 kg only crosses the first slab</div>
+              <table>
+                <thead><tr><th>Slab</th><th>Charge</th><th>Traversed?</th></tr></thead>
+                <tbody>
+                  <tr class="slab-row"><td>0 – 5 kg</td><td>₹400</td><td>✓ Yes</td></tr>
+                  <tr class="slab-row"><td>6 – 10 kg</td><td>₹300</td><td>✗ No</td></tr>
+                  <tr class="slab-subtotal"><td colspan="2">SPLIT_TIER Total (1 slab)</td><td><strong>₹400</strong></td></tr>
+                </tbody>
+              </table>
+              <div class="split-label" style="margin-top:8px">▶ FLAT_TIER: 3 kg falls in 0–20 kg band → ₹700 flat</div>
+              <table><tbody>
+                <tr class="chosen-row"><td colspan="2">LOWER → min(₹400, ₹700) → SPLIT wins</td><td>₹400 <span class="chosen-tag">CHOSEN</span></td></tr>
+              </tbody></table>
+              <div class="note-info">ℹ️ A light 3 kg parcel only passes through 1 slab (₹400). FLAT charges the full 0–20 kg band (₹700). LOWER picks ₹400 automatically.</div>
+            </div>
+            <hr class="divider"/>
+            <div class="method-block">
+              <div class="method-label">🧾 Customs — payOnly: HIGHER · minAmount: ₹50 (always guaranteed)</div>
+              <table><tbody>
+                <tr class="slab-row"><td>SPLIT_TIER (0–30 band)</td><td>2% × ₹800</td><td>₹16</td></tr>
+                <tr class="slab-row"><td>FLAT_TIER (0–20 band)</td><td>2% × ₹800</td><td>₹16</td></tr>
+                <tr class="chosen-row"><td colspan="2">HIGHER = ₹16 &lt; minAmount ₹50 → floor applies</td><td>₹50 <span class="floor-tag">✅ Min</span></td></tr>
+              </tbody></table>
+              <div class="note-green">✅ Formula computed ₹16, but Customs always receives at least ₹50. Guaranteed baseline — not an exception.</div>
+            </div>
+            <div class="payout-summary">
+              <h4>Final Payout — ₹800 Transaction</h4>
+              <div class="payout-bars">
+                <div class="payout-row"><div class="payout-label">Transporter</div><div class="bar-track"><div class="bar-fill bar-transporter" style="width:50%"></div></div><div class="payout-amount">₹400</div><div class="payout-pct">50%</div></div>
+                <div class="payout-row"><div class="payout-label">Customs ✅</div><div class="bar-track"><div class="bar-fill bar-customs" style="width:6.25%"></div></div><div class="payout-amount">₹50</div><div class="payout-pct">6.25%</div></div>
+                <div class="payout-row"><div class="payout-label">FedEx India</div><div class="bar-track"><div class="bar-fill bar-platform" style="width:43.75%"></div></div><div class="payout-amount">₹350</div><div class="payout-pct">43.75%</div></div>
+                <div class="payout-row total-row"><div class="payout-label">TOTAL</div><div class="bar-track"></div><div class="payout-amount">₹800 ✓</div><div class="payout-pct">100%</div></div>
+              </div>
+            </div>
+            <div class="note">💡 On very small parcels, minAmount for Customs takes a larger share. Intentional design — every party gets a viable minimum even on low-value shipments.</div>
+          </div>
+        </details>
+
+        <!-- EX 4 -->
+        <details class="example-details full-card standard">
+          <summary>
+            <div>
+              <div class="example-title">Example 4 — Heavy Bulk Consignment · 4 Slabs + Customs Spans 3 Bands</div>
+              <div class="example-meta">75 kg · ₹28,000 · Standard Plan · Customs SPLIT_TIER distributes proportionally across 3 weight bands</div>
+            </div>
+            <span class="pill standard">Standard</span>
+          </summary>
+          <div class="example-detail-body">
+            <div class="method-block">
+              <div class="method-label">🚚 Transporter — payOnly: LOWER</div>
+              <div class="split-label">▶ SPLIT_TIER: 75 kg passes through 4 slabs</div>
+              <table>
+                <thead><tr><th>Slab Traversed</th><th>Charge</th><th>Running Total</th></tr></thead>
+                <tbody>
+                  <tr class="slab-row"><td>0 – 5 kg</td><td>₹400</td><td>₹400</td></tr>
+                  <tr class="slab-row"><td>6 – 10 kg</td><td>₹300</td><td>₹700</td></tr>
+                  <tr class="slab-row"><td>11 – 25 kg</td><td>₹600</td><td>₹1,300</td></tr>
+                  <tr class="slab-row"><td>26 – 100 kg</td><td>₹1,200</td><td>₹2,500</td></tr>
+                  <tr class="slab-subtotal"><td colspan="2">SPLIT_TIER Total</td><td><strong>₹2,500</strong></td></tr>
+                </tbody>
+              </table>
+              <div class="split-label" style="margin-top:8px">▶ FLAT_TIER: 75 kg in 51–100 kg band → ₹2,800 flat</div>
+              <table><tbody>
+                <tr class="chosen-row"><td colspan="2">LOWER → min(₹2,500, ₹2,800) → SPLIT wins</td><td>₹2,500 <span class="chosen-tag">CHOSEN</span></td></tr>
+              </tbody></table>
+            </div>
+            <hr class="divider"/>
+            <div class="method-block">
+              <div class="method-label">🧾 Customs — payOnly: HIGHER · 75 kg spans 3 proportional bands</div>
+              <table>
+                <thead><tr><th>Band</th><th>Wt in Band</th><th>Share</th><th>Rate × TXN Share</th><th>Result</th></tr></thead>
+                <tbody>
+                  <tr class="slab-row"><td>0–30 kg</td><td>30 kg</td><td>40%</td><td>2.0% × ₹11,200</td><td>₹224</td></tr>
+                  <tr class="slab-row"><td>31–60 kg</td><td>30 kg</td><td>40%</td><td>2.5% × ₹11,200</td><td>₹280</td></tr>
+                  <tr class="slab-row"><td>61–75 kg</td><td>15 kg</td><td>20%</td><td>3.0% × ₹5,600</td><td>₹168</td></tr>
+                  <tr class="slab-subtotal"><td colspan="4">SPLIT_TIER Total</td><td><strong>₹672</strong></td></tr>
+                </tbody>
+              </table>
+              <div class="split-label" style="margin-top:8px">▶ FLAT_TIER: 75 kg in 51–100 kg band → 5.5% × ₹28,000 = ₹1,540</div>
+              <table><tbody>
+                <tr class="chosen-row"><td colspan="2">HIGHER → max(₹672, ₹1,540) → FLAT wins</td><td>₹1,540 <span class="chosen-tag">CHOSEN</span></td></tr>
+              </tbody></table>
+              <div class="note-info">ℹ️ FLAT applies full 5.5% to all ₹28,000. Proportional SPLIT gives only ₹672. HIGHER always picks the richer result for full duty coverage.</div>
+            </div>
+            <div class="payout-summary">
+              <h4>Final Payout — ₹28,000 Transaction</h4>
+              <div class="payout-bars">
+                <div class="payout-row"><div class="payout-label">Transporter</div><div class="bar-track"><div class="bar-fill bar-transporter" style="width:8.93%"></div></div><div class="payout-amount">₹2,500</div><div class="payout-pct">8.9%</div></div>
+                <div class="payout-row"><div class="payout-label">Customs</div><div class="bar-track"><div class="bar-fill bar-customs" style="width:5.5%"></div></div><div class="payout-amount">₹1,540</div><div class="payout-pct">5.5%</div></div>
+                <div class="payout-row"><div class="payout-label">FedEx India</div><div class="bar-track"><div class="bar-fill bar-platform" style="width:85.57%"></div></div><div class="payout-amount">₹23,960</div><div class="payout-pct">85.6%</div></div>
+                <div class="payout-row total-row"><div class="payout-label">TOTAL</div><div class="bar-track"></div><div class="payout-amount">₹28,000 ✓</div><div class="payout-pct">100%</div></div>
+              </div>
+            </div>
+          </div>
+        </details>
+
+        <!-- EX 5 -->
+        <details class="example-details full-card premium">
+          <summary>
+            <div>
+              <div class="example-title">Example 5 — Light Premium Parcel · SPLIT and FLAT Produce Identical Results (Tie)</div>
+              <div class="example-meta">8 kg · ₹5,500 · Premium Plan · Both methods tie for Transporter and Customs; Insurer always paid</div>
+            </div>
+            <span class="pill premium">Premium</span>
+          </summary>
+          <div class="example-detail-body">
+            <div class="method-block">
+              <div class="method-label">🚚 Transporter — payOnly: LOWER (Premium slab charges)</div>
+              <div class="split-label">▶ SPLIT_TIER: 8 kg passes through 2 slabs</div>
+              <table>
+                <thead><tr><th>Slab Traversed</th><th>Charge</th><th>Running Total</th></tr></thead>
+                <tbody>
+                  <tr class="slab-row"><td>0 – 5 kg</td><td>₹500</td><td>₹500</td></tr>
+                  <tr class="slab-row"><td>6 – 10 kg <small>(8 kg enters)</small></td><td>₹400</td><td>₹900</td></tr>
+                  <tr class="slab-subtotal"><td colspan="2">SPLIT_TIER Total</td><td><strong>₹900</strong></td></tr>
+                </tbody>
+              </table>
+              <div class="split-label" style="margin-top:8px">▶ FLAT_TIER: 8 kg in 0–20 kg band → ₹900 flat</div>
+              <table><tbody>
+                <tr class="chosen-row"><td colspan="2">LOWER → min(₹900, ₹900) → Both methods tie</td><td>₹900 <span class="tie-tag">↔ TIE</span></td></tr>
+              </tbody></table>
+              <div class="note-info">ℹ️ At exactly 8 kg, the 2 slab charges sum equals the FLAT band charge. Either result is valid.</div>
+            </div>
+            <hr class="divider"/>
+            <div class="method-block">
+              <div class="method-label">🧾 Customs — payOnly: HIGHER · both methods tie</div>
+              <table><tbody>
+                <tr class="slab-row"><td>SPLIT_TIER (0–30 band)</td><td>2.5% × ₹5,500</td><td>₹137.50</td></tr>
+                <tr class="slab-row"><td>FLAT_TIER (0–20 band)</td><td>2.5% × ₹5,500</td><td>₹137.50</td></tr>
+                <tr class="chosen-row"><td colspan="2">HIGHER → max(₹137.50, ₹137.50) → Tie</td><td>₹137.50 <span class="tie-tag">↔ TIE</span></td></tr>
+              </tbody></table>
+            </div>
+            <hr class="divider"/>
+            <div class="method-block">
+              <div class="method-label">🛡️ Insurer — payOnly: ALL (always paid, no comparison)</div>
+              <table><tbody>
+                <tr class="chosen-row"><td>0–10 kg band → 0.75%</td><td>0.75% × ₹5,500</td><td>₹41.25 <span class="always-tag">✓ ALWAYS</span></td></tr>
+              </tbody></table>
+              <div class="note-green">✅ No LOWER/HIGHER guard for Insurer. ₹41.25 goes out unconditionally on every Premium shipment — mandatory cargo coverage.</div>
+            </div>
+            <div class="payout-summary">
+              <h4>Final Payout — ₹5,500 Transaction</h4>
+              <div class="payout-bars">
+                <div class="payout-row"><div class="payout-label">Transporter</div><div class="bar-track"><div class="bar-fill bar-transporter" style="width:16.36%"></div></div><div class="payout-amount">₹900.00</div><div class="payout-pct">16.4%</div></div>
+                <div class="payout-row"><div class="payout-label">Customs</div><div class="bar-track"><div class="bar-fill bar-customs" style="width:2.5%"></div></div><div class="payout-amount">₹137.50</div><div class="payout-pct">2.5%</div></div>
+                <div class="payout-row"><div class="payout-label">Insurer</div><div class="bar-track"><div class="bar-fill bar-insurer" style="width:0.75%"></div></div><div class="payout-amount">₹41.25</div><div class="payout-pct">0.75%</div></div>
+                <div class="payout-row"><div class="payout-label">FedEx India</div><div class="bar-track"><div class="bar-fill bar-platform" style="width:80.39%"></div></div><div class="payout-amount">₹4,421.25</div><div class="payout-pct">80.4%</div></div>
+                <div class="payout-row total-row"><div class="payout-label">TOTAL</div><div class="bar-track"></div><div class="payout-amount">₹5,500 ✓</div><div class="payout-pct">100%</div></div>
+              </div>
+            </div>
+          </div>
+        </details>
+
+        <!-- EX 6 -->
+        <details class="example-details full-card premium">
+          <summary>
+            <div>
+              <div class="example-title">Example 6 — Max Volume Shipment · All 5 Slabs Traversed; Customs Spans 4 Bands</div>
+              <div class="example-meta">150 kg · ₹55,000 · Premium Plan · Every configured slab and band is exercised</div>
+            </div>
+            <span class="pill premium">Premium</span>
+          </summary>
+          <div class="example-detail-body">
+            <div class="method-block">
+              <div class="method-label">🚚 Transporter — payOnly: LOWER · All 5 slabs traversed (Premium rates)</div>
+              <table>
+                <thead><tr><th>Slab Traversed</th><th>Charge</th><th>Running Total</th></tr></thead>
+                <tbody>
+                  <tr class="slab-row"><td>0 – 5 kg</td><td>₹500</td><td>₹500</td></tr>
+                  <tr class="slab-row"><td>6 – 10 kg</td><td>₹400</td><td>₹900</td></tr>
+                  <tr class="slab-row"><td>11 – 25 kg</td><td>₹750</td><td>₹1,650</td></tr>
+                  <tr class="slab-row"><td>26 – 100 kg</td><td>₹1,500</td><td>₹3,150</td></tr>
+                  <tr class="slab-row"><td>101 kg+ <small>(150 kg enters)</small></td><td>₹2,500</td><td>₹5,650</td></tr>
+                  <tr class="slab-subtotal"><td colspan="2">SPLIT_TIER Total (all 5 slabs)</td><td><strong>₹5,650</strong></td></tr>
+                </tbody>
+              </table>
+              <div class="split-label" style="margin-top:8px">▶ FLAT_TIER: 101+ kg band → ₹7,000 flat</div>
+              <table><tbody>
+                <tr class="chosen-row"><td colspan="2">LOWER → min(₹5,650, ₹7,000) → SPLIT wins</td><td>₹5,650 <span class="chosen-tag">CHOSEN</span></td></tr>
+              </tbody></table>
+            </div>
+            <hr class="divider"/>
+            <div class="method-block">
+              <div class="method-label">🧾 Customs — payOnly: HIGHER · 150 kg spans all 4 SPLIT bands proportionally</div>
+              <table>
+                <thead><tr><th>Band</th><th>Wt in Band</th><th>Share</th><th>Rate × TXN Share</th><th>Result</th></tr></thead>
+                <tbody>
+                  <tr class="slab-row"><td>0–30 kg</td><td>30 kg</td><td>20%</td><td>2.5% × ₹11,000</td><td>₹275</td></tr>
+                  <tr class="slab-row"><td>31–60 kg</td><td>30 kg</td><td>20%</td><td>3.0% × ₹11,000</td><td>₹330</td></tr>
+                  <tr class="slab-row"><td>61–120 kg</td><td>60 kg</td><td>40%</td><td>3.5% × ₹22,000</td><td>₹770</td></tr>
+                  <tr class="slab-row"><td>121–150 kg</td><td>30 kg</td><td>20%</td><td>4.5% × ₹11,000</td><td>₹495</td></tr>
+                  <tr class="slab-subtotal"><td colspan="4">SPLIT_TIER Total</td><td><strong>₹1,870</strong></td></tr>
+                </tbody>
+              </table>
+              <div class="split-label" style="margin-top:8px">▶ FLAT_TIER: 101+ kg band → 9% × ₹55,000 = ₹4,950</div>
+              <table><tbody>
+                <tr class="chosen-row"><td colspan="2">HIGHER → max(₹1,870, ₹4,950) → FLAT wins</td><td>₹4,950 <span class="chosen-tag">CHOSEN</span></td></tr>
+              </tbody></table>
+            </div>
+            <hr class="divider"/>
+            <div class="method-block">
+              <div class="method-label">🛡️ Insurer — payOnly: ALL (101+ kg band)</div>
+              <table><tbody>
+                <tr class="chosen-row"><td>101+ kg band → 1.5%</td><td>1.5% × ₹55,000</td><td>₹825 <span class="always-tag">✓ ALWAYS PAID</span></td></tr>
+              </tbody></table>
+            </div>
+            <div class="payout-summary">
+              <h4>Final Payout — ₹55,000 Transaction</h4>
+              <div class="payout-bars">
+                <div class="payout-row"><div class="payout-label">Transporter</div><div class="bar-track"><div class="bar-fill bar-transporter" style="width:10.27%"></div></div><div class="payout-amount">₹5,650</div><div class="payout-pct">10.3%</div></div>
+                <div class="payout-row"><div class="payout-label">Customs</div><div class="bar-track"><div class="bar-fill bar-customs" style="width:9%"></div></div><div class="payout-amount">₹4,950</div><div class="payout-pct">9.0%</div></div>
+                <div class="payout-row"><div class="payout-label">Insurer</div><div class="bar-track"><div class="bar-fill bar-insurer" style="width:1.5%"></div></div><div class="payout-amount">₹825</div><div class="payout-pct">1.5%</div></div>
+                <div class="payout-row"><div class="payout-label">FedEx India</div><div class="bar-track"><div class="bar-fill bar-platform" style="width:79.23%"></div></div><div class="payout-amount">₹43,575</div><div class="payout-pct">79.2%</div></div>
+                <div class="payout-row total-row"><div class="payout-label">TOTAL</div><div class="bar-track"></div><div class="payout-amount">₹55,000 ✓</div><div class="payout-pct">100%</div></div>
+              </div>
+            </div>
+            <div class="note-info">ℹ️ The stress test: all 5 Transporter slabs, all 4 Customs bands, Insurer at max bracket. Every configured rate fires. FedEx India still receives ₹43,575 (79.2%) — zero leakage across all 4 parties.</div>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <section id="summary">
+      <h2>📋 12. Example Summary</h2>
+      <div class="summary-wrap">
+        <table class="summary-table">
+          <thead>
+            <tr><th>#</th><th>Plan</th><th>Weight</th><th>txnAmount</th><th>Transporter</th><th>Customs</th><th>Insurer</th><th>FedEx India</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>1</td><td>STD</td><td>25 kg</td><td>₹10,000</td><td>₹1,300</td><td>₹400</td><td>—</td><td>₹8,300</td></tr>
+            <tr><td>2</td><td>PRE</td><td>25 kg</td><td>₹10,000</td><td>₹1,650</td><td>₹500</td><td>₹100</td><td>₹7,750</td></tr>
+            <tr><td>3</td><td>STD</td><td>3 kg</td><td>₹800</td><td>₹400</td><td>₹50</td><td>—</td><td>₹350</td></tr>
+            <tr><td>4</td><td>STD</td><td>75 kg</td><td>₹28,000</td><td>₹2,500</td><td>₹1,540</td><td>—</td><td>₹23,960</td></tr>
+            <tr><td>5</td><td>PRE</td><td>8 kg</td><td>₹5,500</td><td>₹900</td><td>₹137.50</td><td>₹41.25</td><td>₹4,421.25</td></tr>
+            <tr><td>6</td><td>PRE</td><td>150 kg</td><td>₹55,000</td><td>₹5,650</td><td>₹4,950</td><td>₹825</td><td>₹43,575</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout info">Pattern: LOWER protects transporter economics, HIGHER protects customs, ALL ensures insurer inclusion, and residual always closes the ledger.</div>
+    </section>
+
+    <section id="features">
+      <h2>✨ 13. Product Features Shown in the Demo</h2>
+      <div class="feature-grid">
+        <div class="feature-card"><div class="icon-title"><span class="icon">🏦</span><h3>Vault per Client</h3></div><p class="subtle">Each onboarded party gets a dedicated, trackable vault. Individual and company clients are fully isolated from each other.</p></div>
+        <div class="feature-card"><div class="icon-title"><span class="icon">🔢</span><h3>VA-based Routing</h3></div><p class="subtle">Credits and debits map cleanly to the right vault via virtual account number — no manual reconciliation needed.</p></div>
+        <div class="feature-card"><div class="icon-title"><span class="icon">📁</span><h3>Transaction Vaults</h3></div><p class="subtle">Each consignment gets its own ring-fenced vault. Funds are locked per shipment before payout is triggered.</p></div>
+        <div class="feature-card"><div class="icon-title"><span class="icon">🧭</span><h3>Policy Selection</h3></div><p class="subtle">Standard vs Premium is chosen from productType / productCategory payload attributes — no separate config call needed.</p></div>
+        <div class="feature-card"><div class="icon-title"><span class="icon">🧮</span><h3>Method Comparison</h3></div><p class="subtle">LOWER and HIGHER guards are fully automatic. The engine runs both SPLIT and FLAT methods and picks the correct result every time.</p></div>
+        <div class="feature-card"><div class="icon-title"><span class="icon">🛡️</span><h3>Minimum Payouts</h3></div><p class="subtle">Guaranteed floor for every party. If formula gives less than minAmount, the floor is paid — always, on every transaction, not just edge cases.</p></div>
+        <div class="feature-card"><div class="icon-title"><span class="icon">♻️</span><h3>Residual Closure</h3></div><p class="subtle">FedEx India receives the exact residual amount. Every rupee in the transaction is distributed — zero leakage guaranteed mathematically.</p></div>
+        <div class="feature-card"><div class="icon-title"><span class="icon">📆</span><h3>Settlement Scheduling</h3></div><p class="subtle">Each party follows its own independent settlement cycle — T+1, T+2, Weekly, Quarterly, or Fortnightly — all from one payment event.</p></div>
+      </div>
+      <div class="callout">One shipment event fans out into multiple independently scheduled payouts. Full traceability from customer credit to every downstream settlement. <span class="tag">UPP VALUE</span></div>
+    </section>
+  </div>
+
+  <script>
+    function copyJson() {
+      const text = document.getElementById('jsonContent').innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        const btn = document.querySelector('.copy-btn');
+        const old = btn.textContent;
+        btn.textContent = 'Copied';
+        setTimeout(() => { btn.textContent = old; }, 1800);
+      });
+    }
+  </script>
+</body>
+</html>
