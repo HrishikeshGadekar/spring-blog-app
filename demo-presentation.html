@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Living Ledger</title>
+  <style>
+    :root {
+      --bg: #0b1220;
+      --text: #f5f7fa;
+      --muted: #9fb0c3;
+      --accent: #5eead4;
+      --border: rgba(148, 163, 184, 0.2);
+      --shadow: 0 24px 60px rgba(2, 8, 23, 0.4);
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: radial-gradient(circle at top left, #16233a 0%, var(--bg) 55%, #060a12 100%);
+      color: var(--text);
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 26px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(11, 18, 32, 0.7);
+      position: sticky;
+      top: 0;
+      backdrop-filter: blur(10px);
+      z-index: 10;
+    }
+
+    .brand { font-weight: 700; letter-spacing: 0.02em; }
+    .hint { color: var(--muted); font-size: 13px; }
+
+    .controls { display: flex; align-items: center; gap: 10px; }
+
+    .button {
+      border: 1px solid var(--border);
+      background: rgba(15, 23, 42, 0.7);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 9px 16px;
+      cursor: pointer;
+      font: inherit;
+    }
+
+    .button:hover { border-color: rgba(94, 234, 212, 0.5); }
+
+    .deck { width: min(1200px, calc(100vw - 40px)); margin: 26px auto; flex: 1; }
+
+    .slide {
+      display: none;
+      min-height: calc(100vh - 160px);
+      border: 1px solid var(--border);
+      border-radius: 26px;
+      padding: 46px 52px 40px;
+      background: linear-gradient(180deg, rgba(17, 27, 45, 0.9), rgba(9, 15, 26, 0.94));
+      box-shadow: var(--shadow);
+    }
+
+    .slide.active { display: block; }
+
+    .eyebrow {
+      display: inline-block;
+      padding: 7px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(94, 234, 212, 0.35);
+      color: #99f6e4;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    h1 { font-size: 46px; line-height: 1.15; margin: 20px 0 0; max-width: 900px; }
+    h2 { font-size: 32px; margin: 0 0 20px; }
+    .lead { margin-top: 20px; max-width: 880px; font-size: 19px; line-height: 1.6; color: #dbe6f1; }
+
+    .quote {
+      margin-top: 28px;
+      padding: 22px 26px;
+      border-left: 3px solid var(--accent);
+      background: rgba(94, 234, 212, 0.06);
+      border-radius: 4px 16px 16px 4px;
+      font-size: 20px;
+      line-height: 1.5;
+      font-style: italic;
+      color: #ecfeff;
+      max-width: 860px;
+    }
+
+    .stage-row { display: flex; gap: 16px; margin-top: 34px; flex-wrap: wrap; }
+
+    .stage {
+      flex: 1;
+      min-width: 150px;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 18px;
+      background: rgba(17, 27, 45, 0.6);
+    }
+
+    .stage span {
+      display: block;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .stage strong { display: block; font-size: 16px; margin-bottom: 8px; }
+    .stage p { margin: 0; font-size: 13px; color: var(--muted); line-height: 1.5; }
+
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-top: 30px; }
+
+    .card {
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 24px;
+      background: rgba(17, 27, 45, 0.55);
+    }
+
+    .card h3 { margin: 0 0 12px; font-size: 20px; }
+    .card p, .card li { margin: 0; font-size: 15px; line-height: 1.6; color: #dbe6f1; }
+    .card ul { margin: 0; padding-left: 20px; }
+    .card li + li { margin-top: 8px; }
+
+    .footer {
+      margin-top: 30px;
+      display: flex;
+      justify-content: space-between;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .progress { height: 6px; border-radius: 999px; background: rgba(148, 163, 184, 0.15); overflow: hidden; margin-top: 26px; }
+    .progress > div { height: 100%; width: 0; background: var(--accent); transition: width 0.2s ease; }
+
+    @media (max-width: 900px) {
+      .grid-2, .stage-row { grid-template-columns: 1fr; flex-direction: column; }
+    }
+
+    @media print {
+      body { background: white; color: black; }
+      .topbar, .hint, .progress { display: none !important; }
+      .deck { width: 100%; margin: 0; }
+      .slide {
+        display: block !important;
+        min-height: auto;
+        page-break-after: always;
+        border-radius: 0;
+        box-shadow: none;
+        border: 1px solid #ccc;
+        background: white;
+        color: black;
+      }
+      .card, .stage, .quote { background: white; color: black; }
+      .card p, .card li, .stage p, .lead { color: #333; }
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="brand">Living Ledger</div>
+    <div class="controls">
+      <button class="button" id="prevBtn" type="button">Prev</button>
+      <span class="hint" id="counter">1 / 5</span>
+      <button class="button" id="nextBtn" type="button">Next</button>
+    </div>
+  </div>
+
+  <main class="deck">
+    <section class="slide active">
+      <div class="eyebrow">Accelerate 3.0</div>
+      <h1>Money should only move when a promise is actually kept.</h1>
+      <p class="lead">
+        Most digital deals treat "hold the money" and "release the money" as one blurry step. That's where trust breaks down —
+        funds move too early, too late, or on someone's word instead of real proof.
+      </p>
+      <div class="quote">
+        "Funds are held once, reserved flexibly, verified against real proof, and released only when the deal's actual conditions are met."
+      </div>
+      <div class="footer">
+        <span>Marketplace escrow is our story today - the idea applies far beyond it.</span>
+      </div>
+      <div class="progress"><div></div></div>
+    </section>
+
+    <section class="slide">
+      <div class="eyebrow">The problem</div>
+      <h2>Escrow today is a black box.</h2>
+      <p class="lead">
+        Buyers don't know if their money is safe. Sellers don't know when they'll be paid. Platforms manually chase proof of delivery.
+        And everyone is trusting a single system to get contract terms, timing, and money movement right all at once.
+      </p>
+      <div class="grid-2">
+        <div class="card">
+          <h3>What goes wrong today</h3>
+          <ul>
+            <li>Funds get released on assumption, not verified proof.</li>
+            <li>Disputes happen because no one can see "why" a payment happened.</li>
+            <li>Every new use case needs a brand new, custom-built system.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>What we believe instead</h3>
+          <ul>
+            <li>Holding money and deciding to release it should never be the same step.</li>
+            <li>Proof should be checked against the actual deal, not just "looks fine."</li>
+            <li>The same reservation and release pattern should work for any deal type.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer"><span>This is the gap Living Ledger is built to close.</span></div>
+      <div class="progress"><div></div></div>
+    </section>
+
+    <section class="slide">
+      <div class="eyebrow">Our approach</div>
+      <h2>Seven honest stages, not one black box.</h2>
+      <p class="lead">Every stage of the deal is handled independently, so no single step can quietly take on someone else's responsibility.</p>
+      <div class="stage-row">
+        <div class="stage"><span>1</span><strong>Agree</strong><p>Capture the deal and its real condition for payment.</p></div>
+        <div class="stage"><span>2</span><strong>Hold</strong><p>Custody funds safely, independent of any one deal.</p></div>
+        <div class="stage"><span>3</span><strong>Reserve</strong><p>Earmark funds for a deal without moving them yet.</p></div>
+        <div class="stage"><span>4</span><strong>Prove</strong><p>Check real evidence against the actual obligation.</p></div>
+        <div class="stage"><span>5</span><strong>Decide</strong><p>One accountable checkpoint approves release.</p></div>
+        <div class="stage"><span>6</span><strong>Distribute</strong><p>Split the payout fairly across every stakeholder.</p></div>
+        <div class="stage"><span>7</span><strong>Settle</strong><p>Produce a real, bank-ready payment artifact.</p></div>
+      </div>
+      <div class="footer"><span>Each stage can be explained and justified on its own.</span></div>
+      <div class="progress"><div></div></div>
+    </section>
+
+    <section class="slide">
+      <div class="eyebrow">Why it's different</div>
+      <h2>We designed for trust, not just automation.</h2>
+      <div class="grid-2">
+        <div class="card">
+          <h3>AI assists, humans decide</h3>
+          <p>AI checks evidence against real obligations and gives a confidence signal - but it never has the authority to release funds. That decision always goes through one accountable checkpoint.</p>
+        </div>
+        <div class="card">
+          <h3>Timing flexibility, by design</h3>
+          <p>Sometimes the deal exists before the money arrives. Sometimes the money arrives first. Our reservation logic supports both, instead of forcing one rigid order of operations.</p>
+        </div>
+        <div class="card">
+          <h3>Explainable by nature</h3>
+          <p>Because every stage is separate, we can always answer "why did this payment happen?" with a clear, traceable answer - not a guess.</p>
+        </div>
+        <div class="card">
+          <h3>One pattern, many industries</h3>
+          <p>Marketplace escrow, trade finance milestones, construction progress payments, insurance claims - the same reserve-verify-release pattern applies to all of them.</p>
+        </div>
+      </div>
+      <div class="progress"><div></div></div>
+    </section>
+
+    <section class="slide">
+      <div class="eyebrow">Closing</div>
+      <h2>A platform for trustworthy money movement.</h2>
+      <p class="lead">
+        We didn't just automate escrow - we made every step in the chain of custody honest, explainable, and reusable.
+        That's what makes this a platform, not just a feature.
+      </p>
+      <div class="quote">
+        "Nothing gets paid out on assumption. Everything gets paid out because a condition was actually met."
+      </div>
+      <div class="footer"><span>Thank you - Team Seek Deep, Living Ledger.</span></div>
+      <div class="progress"><div></div></div>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      const slides = Array.from(document.querySelectorAll('.slide'));
+      const counter = document.getElementById('counter');
+      const prevBtn = document.getElementById('prevBtn');
+      const nextBtn = document.getElementById('nextBtn');
+      let current = 0;
+
+      function update() {
+        slides.forEach((slide, index) => {
+          slide.classList.toggle('active', index === current);
+          const bar = slide.querySelector('.progress > div');
+          if (bar) bar.style.width = ((current + 1) / slides.length) * 100 + '%';
+        });
+        counter.textContent = (current + 1) + ' / ' + slides.length;
+      }
+
+      function goTo(index) {
+        current = Math.max(0, Math.min(slides.length - 1, index));
+        update();
+      }
+
+      prevBtn.addEventListener('click', function () { goTo(current - 1); });
+      nextBtn.addEventListener('click', function () { goTo(current + 1); });
+
+      document.addEventListener('keydown', function (event) {
+        if (event.key === 'ArrowRight' || event.key === ' ') { event.preventDefault(); goTo(current + 1); }
+        if (event.key === 'ArrowLeft') { event.preventDefault(); goTo(current - 1); }
+        if (event.key === 'Home') goTo(0);
+        if (event.key === 'End') goTo(slides.length - 1);
+      });
+
+      update();
+    })();
+  </script>
+</body>
+</html>
+

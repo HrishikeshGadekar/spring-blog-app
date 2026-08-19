@@ -1,0 +1,173 @@
+<svg width="1500" height="1000" viewBox="0 0 1500 1000" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Living Ledger Microservice Architecture</title>
+  <desc id="desc">Nine backend microservices and how they interact end-to-end, from party onboarding through settlement.</desc>
+  <defs>
+    <filter id="cardShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#0F172A" flood-opacity="0.12"/>
+    </filter>
+    <marker id="arrowSolid" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0 0L10 5L0 10V0Z" fill="#334155"/>
+    </marker>
+    <marker id="arrowDashed" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0 0L10 5L0 10V0Z" fill="#B45309"/>
+    </marker>
+    <style>
+      .title { font: 700 27px 'Segoe UI', Arial, sans-serif; fill: #0F172A; }
+      .subtitle { font: 400 15px 'Segoe UI', Arial, sans-serif; fill: #475569; }
+      .rowLabel { font: 700 12px 'Segoe UI', Arial, sans-serif; fill: #64748B; letter-spacing: 0.08em; text-transform: uppercase; }
+      .boxTitle { font: 700 17px 'Segoe UI', Arial, sans-serif; fill: #0F172A; }
+      .boxBody { font: 400 12.5px 'Segoe UI', Arial, sans-serif; fill: #475569; }
+      .num { font: 700 13px 'Segoe UI', Arial, sans-serif; fill: #FFFFFF; }
+      .legend { font: 500 13px 'Segoe UI', Arial, sans-serif; fill: #334155; }
+      .noteTitle { font: 700 15px 'Segoe UI', Arial, sans-serif; fill: #0F172A; }
+      .footNote { font: 400 12.5px 'Segoe UI', Arial, sans-serif; fill: #64748B; }
+    </style>
+  </defs>
+
+  <rect width="1500" height="1000" fill="#F5F7FA"/>
+  <rect x="1" y="1" width="1498" height="998" fill="none" stroke="#E2E8F0"/>
+
+  <text x="60" y="56" class="title">Living Ledger — Microservice Interaction Map</text>
+  <text x="60" y="82" class="subtitle">Nine independently deployable services, each with one responsibility, coordinated end-to-end for a single contract.</text>
+
+  <!-- Row labels -->
+  <text x="60" y="172" class="rowLabel">Onboarding &amp; Agreement</text>
+  <text x="60" y="432" class="rowLabel">Custody, Reservation &amp; Proof</text>
+  <text x="60" y="692" class="rowLabel">Decision, Distribution &amp; Settlement</text>
+
+  <!-- ============ ROW 0 ============ -->
+  <!-- Party -->
+  <rect x="60" y="190" width="400" height="170" rx="14" fill="#FFFFFF" stroke="#E2E8F0" filter="url(#cardShadow)"/>
+  <rect x="60" y="190" width="6" height="170" rx="3" fill="#2563EB"/>
+  <circle cx="432" cy="214" r="14" fill="#2563EB"/><text x="427" y="219" class="num">1</text>
+  <text x="90" y="226" class="boxTitle">Party Service</text>
+  <text x="90" y="252" class="boxBody">Onboards buyer, seller, marketplace,</text>
+  <text x="90" y="270" class="boxBody">delivery partner, and tax authority.</text>
+  <text x="90" y="296" class="boxBody">Every other service refers back to</text>
+  <text x="90" y="314" class="boxBody">these party identities.</text>
+
+  <!-- Contract -->
+  <rect x="520" y="190" width="400" height="170" rx="14" fill="#FFFFFF" stroke="#E2E8F0" filter="url(#cardShadow)"/>
+  <rect x="520" y="190" width="6" height="170" rx="3" fill="#2563EB"/>
+  <circle cx="892" cy="214" r="14" fill="#2563EB"/><text x="887" y="219" class="num">2</text>
+  <text x="550" y="226" class="boxTitle">Contract Service</text>
+  <text x="550" y="252" class="boxBody">Stores obligations, the release</text>
+  <text x="550" y="270" class="boxBody">condition, and the split rule for</text>
+  <text x="550" y="296" class="boxBody">the deal — read later by Evidence,</text>
+  <text x="550" y="314" class="boxBody">Release, and Split-Pay.</text>
+
+  <!-- Mock RTA -->
+  <rect x="980" y="190" width="400" height="170" rx="14" fill="#FFFFFF" stroke="#E2E8F0" filter="url(#cardShadow)"/>
+  <rect x="980" y="190" width="6" height="170" rx="3" fill="#2563EB"/>
+  <circle cx="1352" cy="214" r="14" fill="#2563EB"/><text x="1347" y="219" class="num">3</text>
+  <text x="1010" y="226" class="boxTitle">Mock RTA Producer</text>
+  <text x="1010" y="252" class="boxBody">Simulates a real bank credit alert</text>
+  <text x="1010" y="270" class="boxBody">landing in the buyer's account —</text>
+  <text x="1010" y="296" class="boxBody">this is what wakes the Vault</text>
+  <text x="1010" y="314" class="boxBody">Service up with incoming funds.</text>
+
+  <!-- ============ ROW 1 ============ -->
+  <!-- Vault -->
+  <rect x="60" y="450" width="400" height="170" rx="14" fill="#FFFFFF" stroke="#E2E8F0" filter="url(#cardShadow)"/>
+  <rect x="60" y="450" width="6" height="170" rx="3" fill="#0D9488"/>
+  <circle cx="432" cy="474" r="14" fill="#0D9488"/><text x="427" y="479" class="num">4</text>
+  <text x="90" y="486" class="boxTitle">Vault Service</text>
+  <text x="90" y="512" class="boxBody">Hierarchical wallet ledger. Credits</text>
+  <text x="90" y="530" class="boxBody">incoming funds and records every</text>
+  <text x="90" y="556" class="boxBody">reservation Allocation Service asks</text>
+  <text x="90" y="574" class="boxBody">for. Knows nothing about contracts.</text>
+
+  <!-- Allocation -->
+  <rect x="520" y="450" width="400" height="170" rx="14" fill="#FFFFFF" stroke="#E2E8F0" filter="url(#cardShadow)"/>
+  <rect x="520" y="450" width="6" height="170" rx="3" fill="#0D9488"/>
+  <circle cx="892" cy="474" r="14" fill="#0D9488"/><text x="887" y="479" class="num">5</text>
+  <text x="550" y="486" class="boxTitle">Allocation Service</text>
+  <text x="550" y="512" class="boxBody">The flexibility layer: links a</text>
+  <text x="550" y="530" class="boxBody">contract to funds, in either order,</text>
+  <text x="550" y="556" class="boxBody">and instructs Vault Service to</text>
+  <text x="550" y="574" class="boxBody">ring-fence money for that deal.</text>
+
+  <!-- Evidence -->
+  <rect x="980" y="450" width="400" height="170" rx="14" fill="#FFFFFF" stroke="#E2E8F0" filter="url(#cardShadow)"/>
+  <rect x="980" y="450" width="6" height="170" rx="3" fill="#0D9488"/>
+  <circle cx="1352" cy="474" r="14" fill="#0D9488"/><text x="1347" y="479" class="num">6</text>
+  <text x="1010" y="486" class="boxTitle">Evidence Service</text>
+  <text x="1010" y="512" class="boxBody">Stores uploaded proof, then asks</text>
+  <text x="1010" y="530" class="boxBody">an AI adapter to check it against</text>
+  <text x="1010" y="556" class="boxBody">the contract's real obligations —</text>
+  <text x="1010" y="574" class="boxBody">AI recommends, never approves.</text>
+
+  <!-- ============ ROW 2 ============ -->
+  <!-- Release -->
+  <rect x="60" y="710" width="400" height="170" rx="14" fill="#FFFFFF" stroke="#E2E8F0" filter="url(#cardShadow)"/>
+  <rect x="60" y="710" width="6" height="170" rx="3" fill="#B45309"/>
+  <circle cx="432" cy="734" r="14" fill="#B45309"/><text x="427" y="739" class="num">7</text>
+  <text x="90" y="746" class="boxTitle">Release Service</text>
+  <text x="90" y="772" class="boxBody">Independently checks Evidence's</text>
+  <text x="90" y="790" class="boxBody">verdict and Allocation/Vault's</text>
+  <text x="90" y="816" class="boxBody">funding status before marking the</text>
+  <text x="90" y="834" class="boxBody">contract RELEASE_READY.</text>
+
+  <!-- Split-Pay -->
+  <rect x="520" y="710" width="400" height="170" rx="14" fill="#FFFFFF" stroke="#E2E8F0" filter="url(#cardShadow)"/>
+  <rect x="520" y="710" width="6" height="170" rx="3" fill="#B45309"/>
+  <circle cx="892" cy="734" r="14" fill="#B45309"/><text x="887" y="739" class="num">8</text>
+  <text x="550" y="746" class="boxTitle">Split-Pay Service</text>
+  <text x="550" y="772" class="boxBody">Only runs after Release Service</text>
+  <text x="550" y="790" class="boxBody">says ready. Reads the contract's</text>
+  <text x="550" y="816" class="boxBody">split rule and calculates each</text>
+  <text x="550" y="834" class="boxBody">payee's waterfall share.</text>
+
+  <!-- Transaction -->
+  <rect x="980" y="710" width="400" height="170" rx="14" fill="#FFFFFF" stroke="#E2E8F0" filter="url(#cardShadow)"/>
+  <rect x="980" y="710" width="6" height="170" rx="3" fill="#B45309"/>
+  <circle cx="1352" cy="734" r="14" fill="#B45309"/><text x="1347" y="739" class="num">9</text>
+  <text x="1010" y="746" class="boxTitle">Transaction Service</text>
+  <text x="1010" y="772" class="boxBody">Takes Split-Pay's output and</text>
+  <text x="1010" y="790" class="boxBody">generates the ISO 20022 pain.001</text>
+  <text x="1010" y="816" class="boxBody">payment file — the final artifact</text>
+  <text x="1010" y="834" class="boxBody">a bank would actually process.</text>
+
+  <!-- ============ MAIN FLOW ARROWS (solid, numbered sequence) ============ -->
+  <!-- 1 -> 2 -->
+  <path d="M460 275H520" stroke="#334155" stroke-width="2.5" marker-end="url(#arrowSolid)" fill="none"/>
+  <!-- 2 -> 3 -->
+  <path d="M920 275H980" stroke="#334155" stroke-width="2.5" marker-end="url(#arrowSolid)" fill="none"/>
+  <!-- 3 -> 4 (snake via inter-row band) -->
+  <path d="M1180 360V405H260V450" stroke="#334155" stroke-width="2.5" fill="none" marker-end="url(#arrowSolid)"/>
+  <!-- 4 -> 5 -->
+  <path d="M460 535H520" stroke="#334155" stroke-width="2.5" marker-end="url(#arrowSolid)" fill="none"/>
+  <!-- 5 -> 6 -->
+  <path d="M920 535H980" stroke="#334155" stroke-width="2.5" marker-end="url(#arrowSolid)" fill="none"/>
+  <!-- 6 -> 7 (snake via inter-row band) -->
+  <path d="M1180 620V665H260V710" stroke="#334155" stroke-width="2.5" fill="none" marker-end="url(#arrowSolid)"/>
+  <!-- 7 -> 8 -->
+  <path d="M460 795H520" stroke="#334155" stroke-width="2.5" marker-end="url(#arrowSolid)" fill="none"/>
+  <!-- 8 -> 9 -->
+  <path d="M920 795H980" stroke="#334155" stroke-width="2.5" marker-end="url(#arrowSolid)" fill="none"/>
+
+  <!-- ============ SECONDARY DEPENDENCY ARROWS (dashed, control checks) ============ -->
+  <!-- Contract -> Evidence: obligations are read directly, not just via the funds path -->
+  <path d="M720 360V390H1180V450" stroke="#B45309" stroke-width="2" stroke-dasharray="5 5" fill="none" marker-end="url(#arrowDashed)"/>
+  <!-- Allocation -> Release: funding status is checked directly at the release gate -->
+  <path d="M720 620V685H340V710" stroke="#B45309" stroke-width="2" stroke-dasharray="5 5" fill="none" marker-end="url(#arrowDashed)"/>
+
+  <!-- ============ Legend & Notes ============ -->
+  <rect x="60" y="900" width="1380" height="60" rx="14" fill="#FFFFFF" stroke="#E2E8F0"/>
+  <line x1="86" y1="930" x2="126" y2="930" stroke="#334155" stroke-width="2.5"/>
+  <text x="136" y="935" class="legend">Primary call sequence (1 → 9)</text>
+  <line x1="386" y1="930" x2="426" y2="930" stroke="#B45309" stroke-width="2" stroke-dasharray="5 5"/>
+  <text x="436" y="935" class="legend">Direct cross-check dependency</text>
+  <circle cx="720" cy="930" r="8" fill="#2563EB"/>
+  <text x="736" y="935" class="legend">Onboarding &amp; agreement</text>
+  <circle cx="950" cy="930" r="8" fill="#0D9488"/>
+  <text x="966" y="935" class="legend">Custody, reservation &amp; proof</text>
+  <circle cx="1210" cy="930" r="8" fill="#B45309"/>
+  <text x="1226" y="935" class="legend">Decision, distribution &amp; settlement</text>
+
+  <text x="60" y="978" class="footNote">Non-negotiables enforced between services: Vault never sees contract/business rules · Contract never decides fund timing · AI only recommends inside Evidence · Split-Pay and Transaction cannot run before RELEASE_READY.</text>
+</svg>
+
+
+
+
